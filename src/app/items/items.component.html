@@ -88,11 +88,11 @@
       <div class="card-body">
         <div class="info-row">
           <i class="material-icons info-icon">location_on</i>
-          <span class="info-text">{{ item.city }}</span>
+          <span class="info-text">{{ item.city || 'Ciudad no especificada' }}</span>
         </div>
         <div class="info-row">
           <i class="material-icons info-icon">home</i>
-          <span class="info-text">{{ item.address }}</span>
+          <span class="info-text">{{ item.address || 'Dirección no especificada' }}</span>
         </div>
       </div>
 
