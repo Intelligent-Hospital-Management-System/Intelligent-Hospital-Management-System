@@ -91,8 +91,8 @@ export class ItemService {
             name = `${type} ${index + 1}`;
           }
 
-          const city = props['addr_city'] || props['addr:city'] || 'Ciudad no especificada';
-          const address = props['addr_full'] || props['addr:street'] || props['addr_street'] || 'Dirección no especificada';
+          const city = props['addr_city'] || props['addr:city'] || '';
+          const address = props['addr_full'] || props['addr:street'] || props['addr_street'] || '';
 
           return {
             id: props.uuid || index,
