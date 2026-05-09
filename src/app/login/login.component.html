@@ -1,0 +1,12 @@
+<div class="login-container">
+  <div class="login-card">
+    <img src="/img/IHMS.png" alt="Logo de la Aplicación" class="login-logo" />
+    <h1 class="login-title">Bienvenido a IHMS</h1>
+    <p class="login-subtitle">Ingresa para continuar</p>
+
+    <button class="login-button" (click)="login()" [disabled]="isLoading()">
+      <span *ngIf="!isLoading()">Iniciar sesión</span>
+      <div *ngIf="isLoading()" class="spinner"></div>
+    </button>
+  </div>
+</div>

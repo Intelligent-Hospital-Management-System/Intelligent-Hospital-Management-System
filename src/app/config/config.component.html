@@ -1,0 +1,42 @@
+<div class="config-container">
+  <h2 class="page-title">Configuración</h2>
+
+  <div class="config-grid">
+    <!-- User Profile Section -->
+    <section class="config-card profile-card">
+      <h3 class="card-title">Perfil de Usuario</h3>
+      <div class="profile-info">
+        <img [src]="user.profilePic" alt="Foto de perfil" class="profile-image">
+        <div class="profile-details">
+          <h4 class="profile-name">{{ user.name }}</h4>
+          <p class="profile-role">{{ user.role }}</p>
+          <p class="profile-email">{{ user.email }}</p>
+        </div>
+      </div>
+      <button class="logout-button" (click)="logout()">
+        <i class="material-icons">logout</i>
+        Cerrar Sesión
+      </button>
+    </section>
+
+    <!-- App Info Section -->
+    <section class="config-card app-info-card">
+      <h3 class="card-title">Acerca de la Aplicación</h3>
+      <div class="app-details">
+        <div class="app-header">
+          <img src="/img/IHMS.png" alt="Logo de la Aplicación" class="app-logo">
+          <div>
+            <h4 class="app-name">{{ appInfo.name }}</h4>
+            <p class="app-version">Versión {{ appInfo.version }}</p>
+          </div>
+        </div>
+        <div class="user-agent-section">
+          <p class="user-agent-label">Información de tu navegador (User Agent):</p>
+          <div class="user-agent-box">
+            {{ appInfo.userAgent }}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="layout-container">
+  <!-- Sidebar for large screens -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <img src="/img/IHMS.png" alt="Logo" class="sidebar-logo">
+      <span class="sidebar-title">IHMS</span>
+    </div>
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a routerLink="items" routerLinkActive="active-link" class="nav-link">
+          <i class="material-icons">list</i>
+          <span>Items</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="config" routerLinkActive="active-link" class="nav-link">
+          <i class="material-icons">settings</i>
+          <span>Configuración</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main content area -->
+  <main class="content-area">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Bottom bar for small screens -->
+  <nav class="bottom-bar">
+    <a routerLink="items" routerLinkActive="active-link" class="bottom-link">
+      <i class="material-icons">list</i>
+      <span>Items</span>
+    </a>
+    <a routerLink="config" routerLinkActive="active-link" class="bottom-link">
+      <i class="material-icons">settings</i>
+      <span>Config</span>
+    </a>
+  </nav>
+</div>

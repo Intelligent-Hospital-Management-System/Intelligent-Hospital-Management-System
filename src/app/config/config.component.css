@@ -1,0 +1,153 @@
+.config-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  color: #333;
+  font-weight: 500;
+  margin: 0;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
+.config-card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  color: #444;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 0.0625rem solid #eee;
+  padding-bottom: 0.75rem;
+}
+
+/* Profile Section */
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.profile-image {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.profile-role {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #0056b3;
+  font-weight: 500;
+}
+
+.profile-email {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.logout-button {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: transparent;
+  color: #d32f2f;
+  border: 0.1rem solid #d32f2f;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+  color: white;
+}
+
+/* App Info Section */
+.app-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app-logo {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+}
+
+.app-name {
+  margin: 0;
+  font-size: 1.125rem;
+  color: #333;
+}
+
+.app-version {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.user-agent-section {
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid #e2e8f0;
+}
+
+.user-agent-label {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.user-agent-box {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #555;
+  word-break: break-all;
+  line-height: 1.4;
+}
