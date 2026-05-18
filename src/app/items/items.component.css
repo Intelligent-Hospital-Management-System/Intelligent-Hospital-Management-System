@@ -522,7 +522,7 @@
 
 .close-btn:hover {
   background-color: var(--error-bg-color);
-  color: var(--error-color);
+  color: #d32f2f;
 }
 
 .modal-body {
