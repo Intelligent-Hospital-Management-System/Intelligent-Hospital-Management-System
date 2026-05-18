@@ -1,19 +1,3 @@
-/* Typography and Variables */
-:host {
-  --primary-color: #4c1f3d;
-  --primary-color-light: #ffd0f9;
-  --hospital-color: #10b981;
-  --hospital-light: #d1fae5;
-  --secondary: #6a1b9a;
-  --secondary-light: #f3e5f5;
-  --neutral: #757575;
-  --neutral-light: #f5f5f5;
-  --text-dark: #757575;
-  --text-muted: #757575;
-  --bg-color: #ffffff;
-  --border-color: #ffd0f9;
-}
-
 .items-container {
   display: flex;
   flex-direction: column;
@@ -67,8 +51,8 @@
 
 /* Error */
 .error-message {
-  background-color: #feeceb;
-  color: #d32f2f;
+  background-color: var(--error-bg-color);
+  color: var(--error-color);
   padding: 1rem;
   border-radius: 0.5rem;
   display: flex;
@@ -82,7 +66,7 @@
 }
 
 .retry-button {
-  background-color: #d32f2f;
+  background-color:var(--error-color);
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -537,8 +521,8 @@
 }
 
 .close-btn:hover {
-  background-color: #feeceb;
-  color: #d32f2f;
+  background-color: var(--error-bg-color);
+  color: var(--error-color);
 }
 
 .modal-body {

@@ -1,4 +1,20 @@
 :root{
+  /*VARIABLES GLOBALES*/
+  --primary-color:#4c1f3d;
+  --primary-color-light:#ffd0f9;
+  --hospital-color:#10b981;
+  --hospital-light:#d1fae5;
+  --secondary:#6a1b9a;
+  --secondary-light:#f3e5f5;
+  --neutral:#757575;
+  --neutral-light:#f5f5f5;
+  --text-dark:#757575;
+  --text-muted:#757575;
+  --bg-color:#ffffff;
+  --border-color:#ffd0f9;
+  --error-color:#d32f2f;
+  --eeror-bg-color:#feeceb;
+
   --login-bg-gradient-start: #e0eafc;
   --login-bg-gradient-end: #f3aed0;
 
