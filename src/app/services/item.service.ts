@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -19,16 +19,6 @@ interface CacheData {
   data: Item[];
 }
 
-interface GeocodeCacheEntry {
-  city: string;
-  address: string;
-  timestamp: number;
-}
-
-interface GeocodeCache {
-  [key: string]: GeocodeCacheEntry;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -39,10 +29,6 @@ export class ItemService {
   private cacheDurationMs = 5 * 60 * 1000;
   private apiKey = '3cf67919f59931bd81146de940ffb6c418d238b3';
 
-  private geoapifyApiKey = '3a2b7c2f9c534dd4be9d011e324d08c5';
-  private geocodeCacheKey = 'geoapifyReverseGeocode';
-  private geocodeCacheDurationMs = 30 * 24 * 60 * 60 * 1000; // 30 días
-
   constructor(private http: HttpClient) { }
 
   getItems(): Observable<Item[]> {
@@ -51,6 +37,7 @@ export class ItemService {
       try {
         const cacheData: CacheData = JSON.parse(cachedString);
         const now = new Date().getTime();
+
         if (now - cacheData.timestamp < this.cacheDurationMs) {
           console.log('Returning data from cache');
           return of(cacheData.data);
@@ -73,7 +60,10 @@ export class ItemService {
         if (!Array.isArray(response)) {
           facilities = response.features || [];
         }
-        if (!Array.isArray(facilities)) return [];
+
+        if (!Array.isArray(facilities)) {
+          return [];
+        }
 
         return facilities.map((facility: any, index: number) => {
           const props = facility.attributes || facility.properties || {};
@@ -96,84 +86,41 @@ export class ItemService {
           if (!isHospital && !isClinic) return null;
 
           const type = isHospital ? 'Hospital' : 'Clínica';
-          if (!name) name = `${type} ${index + 1}`;
+
+          if (!name) {
+            name = `${type} ${index + 1}`;
+          }
 
           const city = props['addr_city'] || props['addr:city'] || '';
           const address = props['addr_full'] || props['addr:street'] || props['addr_street'] || '';
 
           return {
             id: props.uuid || index,
-            name,
-            city,
-            address,
-            type,
+            name: name,
+            city: city,
+            address: address,
+            type: type,
             latitude: coords ? coords[1] : null,
             longitude: coords ? coords[0] : null
           };
         }).filter((item: any) => item !== null) as Item[];
       }),
       tap(data => {
-        const cacheData: CacheData = { timestamp: new Date().getTime(), data };
+        const cacheData: CacheData = {
+          timestamp: new Date().getTime(),
+          data: data
+        };
         localStorage.setItem(this.cacheKey, JSON.stringify(cacheData));
       }),
       catchError(error => {
         console.error('API Error:', error);
+
         if (error.status === 401 || error.status === 403) {
           const detail = error.error?.detail || 'Se requiere una API Key de Healthsites válida y activa.';
           return throwError(() => new Error(`Error de Healthsites: ${detail}`));
         }
+
         return throwError(() => new Error('Error al obtener los establecimientos de Healthsites. Por favor intente más tarde.'));
-      })
-    );
-  }
-
-  needsGeocode(item: Item): boolean {
-    return (!item.city || !item.address) &&
-      item.latitude !== null &&
-      item.longitude !== null;
-  }
-
-  reverseGeocode(lat: number, lon: number): Observable<{ city: string; address: string }> {
-    const coordKey = `${lat.toFixed(4)},${lon.toFixed(4)}`;
-
-    // Verificar cache local primero
-    try {
-      const cacheString = localStorage.getItem(this.geocodeCacheKey);
-      if (cacheString) {
-        const cache: GeocodeCache = JSON.parse(cacheString);
-        const entry = cache[coordKey];
-        if (entry && (Date.now() - entry.timestamp) < this.geocodeCacheDurationMs) {
-          return of({ city: entry.city, address: entry.address });
-        }
-      }
-    } catch (e) {
-      console.error('Error reading geocode cache', e);
-    }
-
-    const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${this.geoapifyApiKey}`;
-
-    return this.http.get<any>(url).pipe(
-      map(response => {
-        const props = response?.features?.[0]?.properties || {};
-        const city = props.city || props.town || props.village || props.municipality || props.county || '';
-        const street = props.street || '';
-        const housenumber = props.housenumber || '';
-        const address = housenumber ? `${street} ${housenumber}`.trim() : street;
-        return { city, address };
-      }),
-      tap(result => {
-        try {
-          const cacheString = localStorage.getItem(this.geocodeCacheKey);
-          const cache: GeocodeCache = cacheString ? JSON.parse(cacheString) : {};
-          cache[coordKey] = { ...result, timestamp: Date.now() };
-          localStorage.setItem(this.geocodeCacheKey, JSON.stringify(cache));
-        } catch (e) {
-          console.error('Error saving geocode cache', e);
-        }
-      }),
-      catchError(error => {
-        console.error('Geoapify error:', error);
-        return of({ city: '', address: '' });
       })
     );
   }
