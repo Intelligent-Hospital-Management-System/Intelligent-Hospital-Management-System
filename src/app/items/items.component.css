@@ -241,6 +241,19 @@
   }
 }
 
+/* Spinner inline para geocoding por campo */
+.field-spinner {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 0.125rem solid var(--primary-color-light);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 /* Items Grid */
 .items-grid {
   display: grid;
