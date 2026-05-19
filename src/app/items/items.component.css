@@ -18,14 +18,10 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  height: calc(100vh - 2rem);
+  overflow: hidden;
 }
-.header,
-.controls-panel{
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding-bottom:0.5 rem;
-}
+
 .items-list-scroll{
   flex:1;
   overflow-y: auto;
