@@ -4,6 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ItemService, Item } from '../services/item.service';
 
+export enum ItemType {
+    HOSPITAL = 'Hospital',
+    CLINIC = 'Clínica'
+  }
+
 @Component({
   selector: 'app-items',
   standalone: true,
@@ -12,6 +17,7 @@ import { ItemService, Item } from '../services/item.service';
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
+  readonly ITEM_TYPE = ItemType;
   items = signal<Item[]>([]);
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
