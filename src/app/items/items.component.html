@@ -88,11 +88,21 @@
       <div class="card-body">
         <div class="info-row">
           <i class="material-icons info-icon">location_on</i>
-          <span class="info-text">{{ item.city || 'Ciudad no especificada' }}</span>
+          <ng-container *ngIf="isGeocoding(item.id) && !item.city; else cityVal">
+            <span class="field-spinner"></span>
+          </ng-container>
+          <ng-template #cityVal>
+            <span class="info-text">{{ item.city }}</span>
+          </ng-template>
         </div>
         <div class="info-row">
           <i class="material-icons info-icon">home</i>
-          <span class="info-text">{{ item.address || 'Dirección no especificada' }}</span>
+          <ng-container *ngIf="isGeocoding(item.id) && !item.address; else addrVal">
+            <span class="field-spinner"></span>
+          </ng-container>
+          <ng-template #addrVal>
+            <span class="info-text">{{ item.address }}</span>
+          </ng-template>
         </div>
       </div>
 
@@ -128,9 +138,17 @@
           </span>
           <h2 class="modal-title">{{ selectedItem()?.name }}</h2>
           <div class="modal-subtitle">
-            <span>{{ selectedItem()?.city }}</span>
-            <span class="dot-separator">•</span>
-            <span>{{ selectedItem()?.address }}</span>
+            <ng-container *ngIf="liveSelectedItem() as live">
+              <ng-container *ngIf="isGeocoding(live.id) && !live.city; else modalCity">
+                <span class="field-spinner"></span>
+              </ng-container>
+              <ng-template #modalCity><span>{{ live.city }}</span></ng-template>
+              <span class="dot-separator">•</span>
+              <ng-container *ngIf="isGeocoding(live.id) && !live.address; else modalAddr">
+                <span class="field-spinner"></span>
+              </ng-container>
+              <ng-template #modalAddr><span>{{ live.address }}</span></ng-template>
+            </ng-container>
           </div>
         </div>
         <div class="modal-actions">
