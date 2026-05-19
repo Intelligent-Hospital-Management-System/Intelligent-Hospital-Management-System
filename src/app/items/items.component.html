@@ -49,10 +49,10 @@
         <div class="dropdown-menu" *ngIf="showTypeDropdown()">
           <button class="dropdown-item" [class.active]="selectedTypeFilter() === ''"
             (click)="selectType('')">Todos</button>
-          <button class="dropdown-item" [class.active]="selectedTypeFilter() === 'Hospital'"
-            (click)="selectType('Hospital')">Hospital</button>
-          <button class="dropdown-item" [class.active]="selectedTypeFilter() === 'Clínica'"
-            (click)="selectType('Clínica')">Clínica</button>
+          <button class="dropdown-item" [class.active]="selectedTypeFilter() === ITEM_TYPE.HOSPITAL"
+            (click)="selectType(ITEM_TYPE.HOSPITAL)">Hospital</button>
+          <button class="dropdown-item" [class.active]="selectedTypeFilter() ===  ITEM_TYPE.CLINIC"
+            (click)="selectType(ITEM_TYPE.CLINIC)">Clínica</button>
         </div>
       </div>
     </div>
@@ -71,15 +71,15 @@
     <div class="hospital-card" *ngFor="let item of displayedItems()">
       <div class="card-header">
         <div class="card-icon-container">
-          <i class="material-icons card-icon text-primary" *ngIf="item.type === 'Hospital'">local_hospital</i>
-          <i class="material-icons card-icon text-secondary" *ngIf="item.type === 'Clínica'">medical_services</i>
+          <i class="material-icons card-icon text-primary" *ngIf="item.type === ITEM_TYPE.HOSPITAL">local_hospital</i>
+          <i class="material-icons card-icon text-secondary" *ngIf="item.type === ITEM_TYPE.CLINIC">medical_services</i>
           <i class="material-icons card-icon text-neutral"
-            *ngIf="item.type !== 'Hospital' && item.type !== 'Clínica'">business</i>
+            *ngIf="item.type !== ITEM_TYPE.HOSPITAL && item.type !== ITEM_TYPE.CLINIC">business</i>
         </div>
         <div class="card-title-group">
           <h3 class="card-title">{{ item.name }}</h3>
           <span class="badge"
-            [ngClass]="{'badge-hospital': item.type === 'Hospital', 'badge-clinic': item.type === 'Clínica', 'badge-other': item.type !== 'Hospital' && item.type !== 'Clínica'}">
+            [ngClass]="{'badge-hospital': item.type === ITEM_TYPE.HOSPITAL, 'badge-clinic': item.type === ITEM_TYPE.CLINIC, 'badge-other': item.type !== ITEM_TYPE.HOSPITAL && item.type !== ITEM_TYPE.CLINIC}">
             {{ item.type | uppercase }}
           </span>
         </div>
@@ -133,7 +133,7 @@
       <div class="modal-header">
         <div class="modal-title-area">
           <span class="badge"
-            [ngClass]="{'badge-hospital': selectedItem()?.type === 'Hospital', 'badge-clinic': selectedItem()?.type === 'Clínica', 'badge-other': selectedItem()?.type !== 'Hospital' && selectedItem()?.type !== 'Clínica'}">
+            [ngClass]="{'badge-hospital': selectedItem()?.type === ITEM_TYPE.HOSPITAL, 'badge-clinic': selectedItem()?.type === ITEM_TYPE.CLINIC, 'badge-other': selectedItem()?.type !== ITEM_TYPE.HOSPITAL && selectedItem()?.type !== ITEM_TYPE.CLINIC}">
             {{ selectedItem()?.type | uppercase }}
           </span>
           <h2 class="modal-title">{{ selectedItem()?.name }}</h2>

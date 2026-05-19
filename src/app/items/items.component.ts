@@ -6,6 +6,11 @@ import { ItemService, Item } from '../services/item.service';
 import { from, mergeMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+export enum ItemType {
+    HOSPITAL = 'Hospital',
+    CLINIC = 'Clínica'
+  }
+
 @Component({
   selector: 'app-items',
   standalone: true,
@@ -14,6 +19,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
+  readonly ITEM_TYPE = ItemType;
   items = signal<Item[]>([]);
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
