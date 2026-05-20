@@ -40,10 +40,10 @@ export class ItemsComponent implements OnInit {
     const filter = this.normalizeText(this.filterText());
     if (filter) {
       result = result.filter(item => {
-        const name = this.normalizeText(item.name || '');
-        const city = this.normalizeText(item.city || '');
-        const address = this.normalizeText(item.address || '');
-        const type = this.normalizeText(item.type || '');
+        const name = this.normalizeText(item.name);
+        const city = this.normalizeText(item.city);
+        const address = this.normalizeText(item.address);
+        const type = this.normalizeText(item.type);
         
         return name.includes(filter) || city.includes(filter) || address.includes(filter) || type.includes(filter);
       });
@@ -80,7 +80,10 @@ export class ItemsComponent implements OnInit {
     private itemService: ItemService,
     private sanitizer: DomSanitizer
   ) {}
-  normalizeText(text: string): string{
+  normalizeText(text: string): string {
+    if (!text) {
+      return '';
+    }
     return text
       .toLowerCase()
       .normalize("NFD")
