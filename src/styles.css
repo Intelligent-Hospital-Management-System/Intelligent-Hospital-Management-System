@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 :root{
   /*VARIABLES GLOBALES*/
   --primary-color:#4c1f3d;
@@ -20,11 +21,31 @@
 
   --error-color:#d32f2f;
   --error-bg-color:#feeceb;
+=======
+
+@import 'material-icons/iconfont/material-icons.css';
+
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/Inter_18pt-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+  @font-face {
+  font-family: 'Inter' ;
+  src: url('/assets/fonts/Inter_18pt-Regular.ttf') format('truetype');
+ font-weight: 400;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/Inter_18pt-Medium.ttf') format('truetype');
+  font-weight: 500;
+>>>>>>> 4361be90cae572f7a57b361cc0f9bfc51ba1a6f7
 }
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1rem; /* 1rem = 1rem */
   background-color: #f4f7f6;
   color: #333333;
