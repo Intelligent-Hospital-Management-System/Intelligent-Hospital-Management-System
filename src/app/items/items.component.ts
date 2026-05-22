@@ -80,14 +80,15 @@ export class ItemsComponent implements OnInit {
     private itemService: ItemService,
     private sanitizer: DomSanitizer
   ) {}
-  normalizeText(text: string): string {
+
+  normalizeText(text?: string | null): string{
     if (!text) {
-      return '';
-    }
+    return '';
+  }
     return text
       .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
   }
   ngOnInit() {
     this.fetchItems();
