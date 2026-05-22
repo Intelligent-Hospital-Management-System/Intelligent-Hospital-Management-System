@@ -1,20 +1,3 @@
-:host{
-  --login-bg-gradient-start:#e0eafc;
-  --login-bg-gradient-end: #f3aed0;
-  --login-card-bg: #fceefa;
-  --login-title-color: #31142f;
-  --login-subtitle-color: #684a5e;
-  --login-button-gradient-start: #631a4d;
-  --login-button-gradient-end: #ffd0f9;
-  --login-button-hover-end: #4c4af3;
-  --login-button-text: #ffffff;
-  --login-disabled-bg: #a0aec0;
-  --shadow-light: rgba(0, 0, 0, 0.1);
-  --shadow-medium: rgba(0, 0, 0, 0.15);
-  --button-shadow: rgba(49, 130, 206, 0.3);
-  --button-shadow-hover: rgba(49, 130, 206, 0.4);
-  --spinner-border: rgba(255, 255, 255, 0.3);
-}
 .login-container {
   display: flex;
   align-items: center;

@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 :root{
-  /*VARIABLES GLOBALES*/
   --primary-color:#4c1f3d;
   --primary-light-color:#ffd0f9;
 
@@ -21,8 +19,7 @@
 
   --error-color:#d32f2f;
   --error-bg-color:#feeceb;
-=======
-
+}
 @import 'material-icons/iconfont/material-icons.css';
 
 /* You can add global styles to this file, and also import other style files */
@@ -40,7 +37,7 @@
   font-family: 'Inter';
   src: url('/assets/fonts/Inter_18pt-Medium.ttf') format('truetype');
   font-weight: 500;
->>>>>>> 4361be90cae572f7a57b361cc0f9bfc51ba1a6f7
+
 }
 html, body {
   margin: 0;
