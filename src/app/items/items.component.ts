@@ -4,6 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ItemService, Item } from '../services/item.service';
 
+export enum ItemType {
+    HOSPITAL = 'Hospital',
+    CLINIC = 'Clínica'
+  }
+
 @Component({
   selector: 'app-items',
   standalone: true,
@@ -12,6 +17,7 @@ import { ItemService, Item } from '../services/item.service';
   styleUrls: ['./items.component.css']
 })
 export class ItemsComponent implements OnInit {
+  readonly ITEM_TYPE = ItemType;
   items = signal<Item[]>([]);
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
@@ -31,13 +37,13 @@ export class ItemsComponent implements OnInit {
   processedItems = computed(() => {
     let result = [...this.items()];
     
-    const filter = this.filterText().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const filter = this.normalizeText(this.filterText());
     if (filter) {
       result = result.filter(item => {
-        const name = (item.name || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        const city = (item.city || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        const address = (item.address || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        const type = (item.type || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const name = this.normalizeText(item.name);
+        const city = this.normalizeText(item.city);
+        const address = this.normalizeText(item.address);
+        const type = this.normalizeText(item.type);
         
         return name.includes(filter) || city.includes(filter) || address.includes(filter) || type.includes(filter);
       });
@@ -75,6 +81,15 @@ export class ItemsComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {}
 
+  normalizeText(text?: string | null): string{
+    if (!text) {
+    return '';
+  }
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
   ngOnInit() {
     this.fetchItems();
   }
