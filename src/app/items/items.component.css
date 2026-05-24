@@ -18,7 +18,17 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  height: calc(100vh - 2rem);
+  overflow: hidden;
 }
+
+.items-list-scroll{
+  flex:1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 0.5rem;
+}
+
 
 /* Header */
 .header {

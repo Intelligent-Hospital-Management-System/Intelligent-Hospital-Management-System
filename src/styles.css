@@ -26,6 +26,24 @@ html, body {
   color: #333333;
 }
 
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #fce4f5;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e8a0d8;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d06db8;
+}
+
 * {
   box-sizing: border-box;
 }
