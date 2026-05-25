@@ -7,9 +7,9 @@ import { from, mergeMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export enum ItemType {
-    HOSPITAL = 'Hospital',
-    CLINIC = 'Clínica'
-  }
+  HOSPITAL = 'Hospital',
+  CLINIC = 'Clínica'
+}
 
 @Component({
   selector: 'app-items',
@@ -23,7 +23,6 @@ export class ItemsComponent implements OnInit {
   items = signal<Item[]>([]);
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
-  geocodingIds = signal<Set<string | number>>(new Set());
 
   filterText = signal<string>('');
   sortBy = signal<string>('name');
@@ -94,7 +93,8 @@ export class ItemsComponent implements OnInit {
 
     this.itemService.getItems().subscribe({
       next: (data) => {
-        this.items.set(data);
+        const itemsWithGeocodingState = data.map(item => ({ ...item, isGeocoding: false }));
+        this.items.set(itemsWithGeocodingState);
         this.isLoading.set(false);
         this.triggerGeocoding(data);
       },
@@ -109,7 +109,10 @@ export class ItemsComponent implements OnInit {
     const toGeocode = items.filter(item => this.itemService.needsGeocode(item));
     if (toGeocode.length === 0) return;
 
-    this.geocodingIds.set(new Set(toGeocode.map(i => i.id)));
+    const toGeocodeIds = new Set(toGeocode.map(i => i.id));
+    this.items.update(all => 
+      all.map(i => toGeocodeIds.has(i.id) ? { ...i, isGeocoding: true } : i)
+    );
 
     from(toGeocode).pipe(
       mergeMap(item =>
@@ -120,27 +123,15 @@ export class ItemsComponent implements OnInit {
       )
     ).subscribe({
       next: ({ item, result }) => {
-        if (result.city || result.address) {
-          this.items.update(all =>
-            all.map(i => i.id === item.id
-              ? { ...i, city: result.city || i.city, address: result.address || i.address }
-              : i
-            )
-          );
-        }
-        this.geocodingIds.update(ids => {
-          const next = new Set(ids);
-          next.delete(item.id);
-          return next;
-        });
+        this.items.update(all =>
+          all.map(i => i.id === item.id
+            ? { ...i, city: result.city || i.city, address: result.address || i.address, isGeocoding: false }
+            : i
+          )
+        );
       }
     });
   }
-
-  isGeocoding(id: string | number): boolean {
-    return this.geocodingIds().has(id);
-  }
-
   onFilterChange(text: string) {
     this.filterText.set(text);
     this.displayLimit.set(100);
@@ -191,7 +182,7 @@ export class ItemsComponent implements OnInit {
 
   openGoogleMaps(lat: number | null, lng: number | null) {
     if (lat !== null && lng !== null) {
-      window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+      window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank', 'noopener,noreferrer');
     }
   }
 }

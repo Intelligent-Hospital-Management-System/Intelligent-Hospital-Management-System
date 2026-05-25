@@ -88,7 +88,7 @@
       <div class="card-body">
         <div class="info-row">
           <i class="material-icons info-icon">location_on</i>
-          <ng-container *ngIf="isGeocoding(item.id) && !item.city; else cityVal">
+          <ng-container *ngIf="item.isGeocoding && !item.city; else cityVal">
             <span class="field-spinner"></span>
           </ng-container>
           <ng-template #cityVal>
@@ -97,7 +97,7 @@
         </div>
         <div class="info-row">
           <i class="material-icons info-icon">home</i>
-          <ng-container *ngIf="isGeocoding(item.id) && !item.address; else addrVal">
+          <ng-container *ngIf="item.isGeocoding && !item.address; else addrVal">
             <span class="field-spinner"></span>
           </ng-container>
           <ng-template #addrVal>
@@ -139,12 +139,12 @@
           <h2 class="modal-title">{{ selectedItem()?.name }}</h2>
           <div class="modal-subtitle">
             <ng-container *ngIf="liveSelectedItem() as live">
-              <ng-container *ngIf="isGeocoding(live.id) && !live.city; else modalCity">
+              <ng-container *ngIf="live.isGeocoding && !live.city; else modalCity">
                 <span class="field-spinner"></span>
               </ng-container>
               <ng-template #modalCity><span>{{ live.city }}</span></ng-template>
               <span class="dot-separator">•</span>
-              <ng-container *ngIf="isGeocoding(live.id) && !live.address; else modalAddr">
+              <ng-container *ngIf="live.isGeocoding && !live.address; else modalAddr">
                 <span class="field-spinner"></span>
               </ng-container>
               <ng-template #modalAddr><span>{{ live.address }}</span></ng-template>
