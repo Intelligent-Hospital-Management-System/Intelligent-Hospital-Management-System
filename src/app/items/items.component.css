@@ -19,13 +19,13 @@
 
 .title {
   font-size: 1.75rem;
-  color: var(--text-dark);
+  color: var(--text-dark-color);
   font-weight: 600;
   margin: 0;
 }
 
 .subtitle {
-  color: var(--text-muted);
+  color: var(--text-muted-color);
   font-size: 0.875rem;
   margin: 0;
 }
@@ -36,7 +36,7 @@
   gap: 0.5rem;
   background-color: transparent;
   color: var(--primary-color);
-  border: 0.0625rem solid var(--primary-color);
+  border: 0.0625rem solid var(--primary-light-color);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -46,7 +46,7 @@
 }
 
 .refresh-button:hover {
-  background-color: var(--primary-color-light);
+  background-color: var(--primary-light-color);
 }
 
 /* Error */
@@ -102,7 +102,7 @@
   flex-grow: 1;
   font-size: 1rem;
   outline: none;
-  color: var(--text-dark);
+  color: var(--text-dark-color);
 }
 
 .filter-input::placeholder {
@@ -194,7 +194,7 @@
 }
 
 .dropdown-item.active {
-  background-color: var(--primary-color-light);
+  background-color: var(--primary-light-color);
   color: var(--primary-color);
   font-weight: 500;
 }
@@ -212,7 +212,7 @@
 .spinner-large {
   width: 3rem;
   height: 3rem;
-  border: 0.25rem solid var(--primary-color-light);
+  border: 0.25rem solid var(--primary-light-color);
   border-top-color: var(--primary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -291,18 +291,18 @@
 }
 
 .badge-hospital {
-  background-color: var(--hospital-light);
+  background-color: var(--hospital-light-color);
   color: var(--hospital-color);
 }
 
 .badge-clinic {
-  background-color: var(--secondary-light);
-  color: var(--secondary);
+  background-color: var(--secondary-light-color);
+  color: var(--secondary-color);
 }
 
 .badge-other {
-  background-color: var(--neutral-light);
-  color: var(--neutral);
+  background-color: var(--neutral-light-color);
+  color: var(--neutral-color);
 }
 
 .text-primary {
@@ -310,11 +310,11 @@
 }
 
 .text-secondary {
-  color: var(--secondary);
+  color: var(--secondary-color);
 }
 
 .text-neutral {
-  color: var(--neutral);
+  color: var(--neutral-color);
 }
 
 .card-body {
@@ -358,7 +358,7 @@
   gap: 0.5rem;
   background-color: transparent;
   color: var(--primary-color);
-  border: 0.0625rem solid var(--primary-color-light);
+  border: 0.0625rem solid var(--primary-light-color);
   border-radius: 0.5rem;
   padding: 0.5rem;
   font-size: 0.875rem;
@@ -368,7 +368,7 @@
 }
 
 .map-button:hover:not(:disabled) {
-  background-color: var(--primary-color-light);
+  background-color: var(--primary-light-color);
 }
 
 .map-button:disabled {
@@ -404,7 +404,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: var(--primary-color-light);
+  background-color: var(--primary-light-color);
   color: var(--primary-color);
   border: none;
   border-radius: 2rem;
