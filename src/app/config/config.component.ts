@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { User } from '@angular/fire/auth';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-config',
@@ -10,12 +13,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./config.component.css']
 })
 export class ConfigComponent implements OnInit {
-  // Mock user info
-  user = {
-    name: 'Flor Varela',
-    role: 'Administrador',
-    email: 'flor.varela@hospital.com',
-    profilePic: 'https://i.pravatar.cc/150?u=florvarela'
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
+
+  user: { name: string; email: string; profilePic: string; role: string } = {
+    name: '',
+    email: '',
+    profilePic: '',
+    role: 'Administrador'
   };
 
   // App Info
@@ -25,16 +31,23 @@ export class ConfigComponent implements OnInit {
     userAgent: ''
   };
 
-  constructor(private router: Router) { }
-
   ngOnInit() {
     this.appInfo.userAgent = navigator.userAgent;
+
+    this.authService.user$.subscribe((firebaseUser: User | null) => {
+      if (firebaseUser) {
+        this.user.name = firebaseUser.displayName || 'Usuario';
+        this.user.email = firebaseUser.email || '';
+        this.user.profilePic = firebaseUser.photoURL || 'https://i.pravatar.cc/150';
+        this.cdr.detectChanges();
+      }
+    });
   }
 
-  logout() {
+  async logout() {
     const confirmLogout = window.confirm('¿Estás seguro de que deseas cerrar sesión?');
     if (confirmLogout) {
-      sessionStorage.removeItem('isLoggedIn');
+      await this.authService.logout();
       this.router.navigate(['/login']);
     }
   }

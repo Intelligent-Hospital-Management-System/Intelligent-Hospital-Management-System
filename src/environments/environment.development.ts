@@ -1,7 +1,7 @@
 export const environment = {
     production: false,
     firebaseConfig: {
-        apiKey: "AIzaSyAjMqMJreDOzLE027hBJ2sxcOQwWh67aYM",
+        apiKey: "AIzaSyAjMqMJreDOzlE027hBJ2sxcOQwWh67aYM",
         authDomain: "ihms-d5f57.firebaseapp.com",
         projectId: "ihms-d5f57",
         storageBucket: "ihms-d5f57.firebasestorage.app",
