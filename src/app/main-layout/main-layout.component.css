@@ -103,7 +103,7 @@
 /* Content Area */
 .content-area {
   flex-grow: 1;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 2rem;
 }
 
