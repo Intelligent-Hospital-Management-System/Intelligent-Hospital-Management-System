@@ -65,7 +65,7 @@
     <div class="spinner-large"></div>
     <p>Conectando con Healthsites.io...</p>
   </div>
-
+<div class="items-list-scroll">
   <!-- Content Grid -->
   <div class="items-grid" *ngIf="!isLoading() && !errorMessage()">
     <div class="hospital-card" *ngFor="let item of displayedItems()">
@@ -126,7 +126,7 @@
       <i class="material-icons">expand_more</i> Ver más resultados
     </button>
   </div>
-
+</div>
   <!-- Map Modal -->
   <div class="modal-overlay" *ngIf="selectedItem()" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
