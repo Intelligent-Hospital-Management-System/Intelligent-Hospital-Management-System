@@ -11,6 +11,7 @@ export interface Item {
   type: string;
   latitude: number | null;
   longitude: number | null;
+  isGeocoding?: boolean;
   [key: string]: any;
 }
 
