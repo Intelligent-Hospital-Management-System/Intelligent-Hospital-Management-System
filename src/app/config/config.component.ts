@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { User } from '@angular/fire/auth';
+import { User } from 'firebase/auth';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
