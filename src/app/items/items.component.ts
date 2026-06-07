@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ItemService, Item } from '../services/item.service';
+import { from, mergeMap } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export enum ItemType {
-    HOSPITAL = 'Hospital',
-    CLINIC = 'Clínica'
-  }
+  HOSPITAL = 'Hospital',
+  CLINIC = 'Clínica'
+}
 
 @Component({
   selector: 'app-items',
@@ -25,7 +27,7 @@ export class ItemsComponent implements OnInit {
   filterText = signal<string>('');
   sortBy = signal<string>('name');
   sortAsc = signal<boolean>(true);
-  
+
   selectedTypeFilter = signal<string>('');
   showTypeDropdown = signal<boolean>(false);
 
@@ -56,14 +58,10 @@ export class ItemsComponent implements OnInit {
 
     const sortField = this.sortBy();
     const asc = this.sortAsc() ? 1 : -1;
-    
     result.sort((a, b) => {
       const valA = a[sortField];
       const valB = b[sortField];
-      
-      if (typeof valA === 'string' && typeof valB === 'string') {
-        return valA.localeCompare(valB) * asc;
-      }
+      if (typeof valA === 'string' && typeof valB === 'string') return valA.localeCompare(valB) * asc;
       if (valA < valB) return -1 * asc;
       if (valA > valB) return 1 * asc;
       return 0;
@@ -72,14 +70,19 @@ export class ItemsComponent implements OnInit {
     return result;
   });
 
-  displayedItems = computed(() => {
-    return this.processedItems().slice(0, this.displayLimit());
+  displayedItems = computed(() => this.processedItems().slice(0, this.displayLimit()));
+
+  // Refleja cambios de geocoding en el modal abierto
+  liveSelectedItem = computed(() => {
+    const sel = this.selectedItem();
+    if (!sel) return null;
+    return this.items().find(i => i.id === sel.id) ?? sel;
   });
 
   constructor(
     private itemService: ItemService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   normalizeText(text?: string | null): string{
     if (!text) {
@@ -97,11 +100,13 @@ export class ItemsComponent implements OnInit {
   fetchItems() {
     this.isLoading.set(true);
     this.errorMessage.set(null);
-    
+
     this.itemService.getItems().subscribe({
       next: (data) => {
-        this.items.set(data);
+        const itemsWithGeocodingState = data.map(item => ({ ...item, isGeocoding: false }));
+        this.items.set(itemsWithGeocodingState);
         this.isLoading.set(false);
+        this.triggerGeocoding(data);
       },
       error: (err) => {
         this.errorMessage.set(err.message);
@@ -110,6 +115,33 @@ export class ItemsComponent implements OnInit {
     });
   }
 
+  private triggerGeocoding(items: Item[]) {
+    const toGeocode = items.filter(item => this.itemService.needsGeocode(item));
+    if (toGeocode.length === 0) return;
+
+    const toGeocodeIds = new Set(toGeocode.map(i => i.id));
+    this.items.update(all => 
+      all.map(i => toGeocodeIds.has(i.id) ? { ...i, isGeocoding: true } : i)
+    );
+
+    from(toGeocode).pipe(
+      mergeMap(item =>
+        this.itemService.reverseGeocode(item.latitude!, item.longitude!).pipe(
+          map(result => ({ item, result }))
+        ),
+        5 // máx 5 requests simultáneos
+      )
+    ).subscribe({
+      next: ({ item, result }) => {
+        this.items.update(all =>
+          all.map(i => i.id === item.id
+            ? { ...i, city: result.city || i.city, address: result.address || i.address, isGeocoding: false }
+            : i
+          )
+        );
+      }
+    });
+  }
   onFilterChange(text: string) {
     this.filterText.set(text);
     this.displayLimit.set(100);
@@ -160,8 +192,7 @@ export class ItemsComponent implements OnInit {
 
   openGoogleMaps(lat: number | null, lng: number | null) {
     if (lat !== null && lng !== null) {
-      const url = `https://www.google.com/maps?q=${lat},${lng}`;
-      window.open(url, '_blank');
+      window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank', 'noopener,noreferrer');
     }
   }
 }
