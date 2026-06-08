@@ -6,7 +6,7 @@
     <section class="config-card profile-card">
       <h3 class="card-title">Perfil de Usuario</h3>
       <div class="profile-info">
-        <img [src]="user.profilePic" alt="Foto de perfil" class="profile-image">
+        <img [src]="user.profilePic || 'https://i.pravatar.cc/150'" alt="Foto de perfil" class="profile-image" referrerpolicy="no-referrer" (error)="user.profilePic= 'https://i.pravatar.cc/150'">
         <div class="profile-details">
           <h4 class="profile-name">{{ user.name }}</h4>
           <p class="profile-role">{{ user.role }}</p>

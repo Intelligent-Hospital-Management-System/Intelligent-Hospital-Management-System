@@ -17,8 +17,8 @@ export class LoginComponent {
   private authService = inject(AuthService);
 
   constructor() {
-    this.authService.user$.subscribe(user => {
-      if (user) {
+    this.authService.isLogged$.subscribe(isLogged => {
+      if (isLogged) {
         this.router.navigate(['/main/items']);
       }
     });

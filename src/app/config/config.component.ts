@@ -1,8 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { User } from 'firebase/auth';
+import { AuthService , AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -34,12 +33,15 @@ export class ConfigComponent implements OnInit {
   ngOnInit() {
     this.appInfo.userAgent = navigator.userAgent;
 
-    this.authService.user$.subscribe((firebaseUser: User | null) => {
-      if (firebaseUser) {
-        this.user.name = firebaseUser.displayName || 'Usuario';
-        this.user.email = firebaseUser.email || '';
-        this.user.profilePic = firebaseUser.photoURL || 'https://i.pravatar.cc/150';
+    this.authService.user$.subscribe((userData: AuthUser | null) => {
+      if (userData){
+        this.user.name =  userData.name;
+        this.user.email = userData.email;
+        this.user.profilePic = userData.photoUrl || 'https://i.pravatar.cc/150';
         this.cdr.detectChanges();
+      }
+      else{
+        this.router.navigate(['/login'])
       }
     });
   }
@@ -48,7 +50,6 @@ export class ConfigComponent implements OnInit {
     const confirmLogout = window.confirm('¿Estás seguro de que deseas cerrar sesión?');
     if (confirmLogout) {
       await this.authService.logout();
-      this.router.navigate(['/login']);
-    }
   }
+}
 }
