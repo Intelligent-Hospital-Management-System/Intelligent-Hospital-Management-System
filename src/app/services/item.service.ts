@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, finalize, map, shareReplay, tap } from 'rxjs/operators';
 
 export interface Item {
   id: string | number;
@@ -43,6 +43,7 @@ export class ItemService {
   private geoapifyApiKey = '3a2b7c2f9c534dd4be9d011e324d08c5';
   private geocodeCacheKey = 'geoapifyReverseGeocode';
   private geocodeCacheDurationMs = 30 * 24 * 60 * 60 * 1000; // 30 días
+  private itemsRequest$: Observable<Item[]> | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -64,11 +65,15 @@ export class ItemService {
         localStorage.removeItem(this.cacheKey);
       }
     }
+    if (this.itemsRequest$) {
+        console.log('Request already in progress');
+          return this.itemsRequest$;
+    }
 
     const targetUrl = `${this.apiUrl}?country=Argentina&api-key=${this.apiKey}&limit=5000`;
     const finalUrl = `${this.proxyUrl}${encodeURIComponent(targetUrl)}`;
 
-    return this.http.get<any>(finalUrl).pipe(
+    this.itemsRequest$ = this.http.get<any>(finalUrl).pipe(
       map(response => {
         let facilities = response;
         if (!Array.isArray(response)) {
@@ -117,8 +122,13 @@ export class ItemService {
         const cacheData: CacheData = { timestamp: new Date().getTime(), data };
         localStorage.setItem(this.cacheKey, JSON.stringify(cacheData));
       }),
+      shareReplay(1),
+      finalize(() => {
+        this.itemsRequest$ = null;
+      }),
       catchError(error => {
         console.error('API Error:', error);
+        this.itemsRequest$ = null; 
         if (error.status === 401 || error.status === 403) {
           const detail = error.error?.detail || 'Se requiere una API Key de Healthsites válida y activa.';
           return throwError(() => new Error(`Error de Healthsites: ${detail}`));
@@ -126,6 +136,9 @@ export class ItemService {
         return throwError(() => new Error('Error al obtener los establecimientos de Healthsites. Por favor intente más tarde.'));
       })
     );
+ 
+    return this.itemsRequest$;
+  
   }
 
   needsGeocode(item: Item): boolean {
