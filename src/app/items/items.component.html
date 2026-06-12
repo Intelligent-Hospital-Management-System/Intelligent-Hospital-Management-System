@@ -1,11 +1,11 @@
 <div class="items-container">
   <div class="header">
     <div class="title-section">
-      <h2 class="title">Centros de Salud</h2>
-      <p class="subtitle">Hospitales y Clínicas de Argentina</p>
+      <h2 class="title">{{ 'ITEMS.TITLE' | translate }}</h2>
+      <p class="subtitle">{{ 'ITEMS.SUBTITLE' | translate }}</p>
     </div>
     <button (click)="clearCacheAndReload()" class="refresh-button">
-      <i class="material-icons">refresh</i> Actualizar
+      <i class="material-icons">refresh</i> {{ 'ITEMS.UPDATE' | translate }}
     </button>
   </div>
 
@@ -13,127 +13,185 @@
   <div *ngIf="errorMessage()" class="error-message">
     <i class="material-icons">error_outline</i>
     <div class="error-text">{{ errorMessage() }}</div>
-    <button (click)="fetchItems()" class="retry-button">Reintentar</button>
+    <button (click)="fetchItems()" class="retry-button">{{ 'ITEMS.RETRY' | translate }}</button>
   </div>
 
   <!-- Controls (Filter & Sort) -->
   <div class="controls-panel" *ngIf="!isLoading() && !errorMessage()">
     <div class="search-box">
       <i class="material-icons search-icon">search</i>
-      <input type="text" [ngModel]="filterText()" (ngModelChange)="onFilterChange($event)"
-        placeholder="Filtrar por nombre, ciudad, dirección, tipo..." class="filter-input" />
+      <input
+        type="text"
+        [ngModel]="filterText()"
+        (ngModelChange)="onFilterChange($event)"
+        [placeholder]="'ITEMS.SEARCH_PLACEHOLDER' | translate"
+        class="filter-input"
+      />
     </div>
 
     <div class="sort-section">
-      <span class="sort-label">Ordenar:</span>
+      <span class="sort-label">{{ 'ITEMS.SORT' | translate }}</span>
       <button class="sort-chip" [class.active]="sortBy() === 'name'" (click)="toggleSort('name')">
-        Nombre
+        {{ 'ITEMS.NAME' | translate }}
         <i class="material-icons sort-icon" *ngIf="sortBy() === 'name'">
           {{ sortAsc() ? 'arrow_upward' : 'arrow_downward' }}
         </i>
       </button>
       <button class="sort-chip" [class.active]="sortBy() === 'city'" (click)="toggleSort('city')">
-        Ciudad
+        {{ 'ITEMS.CITY' | translate }}
         <i class="material-icons sort-icon" *ngIf="sortBy() === 'city'">
           {{ sortAsc() ? 'arrow_upward' : 'arrow_downward' }}
         </i>
       </button>
 
-      <span class="sort-label" style="margin-left: 0.5rem;">Filtrar:</span>
+      <span class="sort-label" style="margin-left: 0.5rem">{{ 'ITEMS.FILTER' | translate }}</span>
       <div class="dropdown-container">
-        <button class="sort-chip" [class.active]="selectedTypeFilter() !== ''"
-          (click)="showTypeDropdown.set(!showTypeDropdown())">
-          Tipo: {{ selectedTypeFilter() || 'Todos' }}
+        <button
+          class="sort-chip"
+          [class.active]="selectedTypeFilter() !== ''"
+          (click)="showTypeDropdown.set(!showTypeDropdown())"
+        >
+          {{ 'ITEMS.TYPE' | translate }}: {{ selectedTypeFilter() || ('ITEMS.ALL' | translate) }}
           <i class="material-icons sort-icon">arrow_drop_down</i>
         </button>
         <div class="dropdown-menu" *ngIf="showTypeDropdown()">
-          <button class="dropdown-item" [class.active]="selectedTypeFilter() === ''"
-            (click)="selectType('')">Todos</button>
-          <button class="dropdown-item" [class.active]="selectedTypeFilter() === ITEM_TYPE.HOSPITAL"
-            (click)="selectType(ITEM_TYPE.HOSPITAL)">Hospital</button>
-          <button class="dropdown-item" [class.active]="selectedTypeFilter() ===  ITEM_TYPE.CLINIC"
-            (click)="selectType(ITEM_TYPE.CLINIC)">Clínica</button>
+          <button
+            class="dropdown-item"
+            [class.active]="selectedTypeFilter() === ''"
+            (click)="selectType('')"
+          >
+            {{ 'ITEMS.ALL' | translate }}
+          </button>
+          <button
+            class="dropdown-item"
+            [class.active]="selectedTypeFilter() === ITEM_TYPE.HOSPITAL"
+            (click)="selectType(ITEM_TYPE.HOSPITAL)"
+          >
+            {{ 'ITEMS.HOSPITAL' | translate }}
+          </button>
+          <button
+            class="dropdown-item"
+            [class.active]="selectedTypeFilter() === ITEM_TYPE.CLINIC"
+            (click)="selectType(ITEM_TYPE.CLINIC)"
+          >
+            {{ 'ITEMS.CLINIC' | translate }}
+          </button>
         </div>
       </div>
     </div>
 
-    <p class="results-count">Mostrando {{ processedItems().length }} de {{ items().length }} centros de salud</p>
+    <p class="results-count">
+      {{ 'ITEMS.SHOWING' | translate }} {{ processedItems().length }} {{ 'ITEMS.OF' | translate }}
+      {{ items().length }} {{ 'ITEMS.HEALTH_CENTERS' | translate }}
+    </p>
   </div>
 
   <!-- Spinner -->
   <div *ngIf="isLoading()" class="loading-container">
     <div class="spinner-large"></div>
-    <p>Conectando con Healthsites.io...</p>
+    <p>{{ 'ITEMS.CONNECTING' | translate }}</p>
   </div>
-<div class="items-list-scroll">
-  <!-- Content Grid -->
-  <div class="items-grid" *ngIf="!isLoading() && !errorMessage()">
-    <div class="hospital-card" *ngFor="let item of displayedItems()">
-      <div class="card-header">
-        <div class="card-icon-container">
-          <i class="material-icons card-icon text-primary" *ngIf="item.type === ITEM_TYPE.HOSPITAL">local_hospital</i>
-          <i class="material-icons card-icon text-secondary" *ngIf="item.type === ITEM_TYPE.CLINIC">medical_services</i>
-          <i class="material-icons card-icon text-neutral"
-            *ngIf="item.type !== ITEM_TYPE.HOSPITAL && item.type !== ITEM_TYPE.CLINIC">business</i>
+  <div class="items-list-scroll">
+    <!-- Content Grid -->
+    <div class="items-grid" *ngIf="!isLoading() && !errorMessage()">
+      <div class="hospital-card" *ngFor="let item of displayedItems()">
+        <div class="card-header">
+          <div class="card-icon-container">
+            <i
+              class="material-icons card-icon text-primary"
+              *ngIf="item.type === ITEM_TYPE.HOSPITAL"
+              >local_hospital</i
+            >
+            <i
+              class="material-icons card-icon text-secondary"
+              *ngIf="item.type === ITEM_TYPE.CLINIC"
+              >medical_services</i
+            >
+            <i
+              class="material-icons card-icon text-neutral"
+              *ngIf="item.type !== ITEM_TYPE.HOSPITAL && item.type !== ITEM_TYPE.CLINIC"
+              >business</i
+            >
+          </div>
+          <div class="card-title-group">
+            <h3 class="card-title">{{ item.name }}</h3>
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-hospital': item.type === ITEM_TYPE.HOSPITAL,
+                'badge-clinic': item.type === ITEM_TYPE.CLINIC,
+                'badge-other': item.type !== ITEM_TYPE.HOSPITAL && item.type !== ITEM_TYPE.CLINIC,
+              }"
+            >
+              {{ item.type | uppercase }}
+            </span>
+          </div>
         </div>
-        <div class="card-title-group">
-          <h3 class="card-title">{{ item.name }}</h3>
-          <span class="badge"
-            [ngClass]="{'badge-hospital': item.type === ITEM_TYPE.HOSPITAL, 'badge-clinic': item.type === ITEM_TYPE.CLINIC, 'badge-other': item.type !== ITEM_TYPE.HOSPITAL && item.type !== ITEM_TYPE.CLINIC}">
-            {{ item.type | uppercase }}
-          </span>
+
+        <div class="card-body">
+          <div class="info-row">
+            <i class="material-icons info-icon">location_on</i>
+            <ng-container *ngIf="item.isGeocoding && !item.city; else cityVal">
+              <span class="field-spinner"></span>
+            </ng-container>
+            <ng-template #cityVal>
+              <span class="info-text">{{ item.city }}</span>
+            </ng-template>
+          </div>
+          <div class="info-row">
+            <i class="material-icons info-icon">home</i>
+            <ng-container *ngIf="item.isGeocoding && !item.address; else addrVal">
+              <span class="field-spinner"></span>
+            </ng-container>
+            <ng-template #addrVal>
+              <span class="info-text">{{ item.address }}</span>
+            </ng-template>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button
+            class="map-button"
+            (click)="openModal(item)"
+            [disabled]="!item.latitude || !item.longitude"
+          >
+            <i class="material-icons">map</i>
+            <span>{{ 'ITEMS.VIEW_MAP' | translate }}</span>
+          </button>
         </div>
       </div>
 
-      <div class="card-body">
-        <div class="info-row">
-          <i class="material-icons info-icon">location_on</i>
-          <ng-container *ngIf="item.isGeocoding && !item.city; else cityVal">
-            <span class="field-spinner"></span>
-          </ng-container>
-          <ng-template #cityVal>
-            <span class="info-text">{{ item.city }}</span>
-          </ng-template>
-        </div>
-        <div class="info-row">
-          <i class="material-icons info-icon">home</i>
-          <ng-container *ngIf="item.isGeocoding && !item.address; else addrVal">
-            <span class="field-spinner"></span>
-          </ng-container>
-          <ng-template #addrVal>
-            <span class="info-text">{{ item.address }}</span>
-          </ng-template>
-        </div>
-      </div>
-
-      <div class="card-footer">
-        <button class="map-button" (click)="openModal(item)" [disabled]="!item.latitude || !item.longitude">
-          <i class="material-icons">map</i>
-          <span>Ver mapa</span>
-        </button>
+      <div class="empty-state" *ngIf="processedItems().length === 0">
+        <i class="material-icons empty-icon">search_off</i>
+        <p>{{ 'ITEMS.EMPTY' | translate }}</p>
       </div>
     </div>
 
-    <div class="empty-state" *ngIf="processedItems().length === 0">
-      <i class="material-icons empty-icon">search_off</i>
-      <p>No se encontraron centros médicos que coincidan con la búsqueda.</p>
+    <!-- Load More Button -->
+    <div
+      class="load-more-container"
+      *ngIf="!isLoading() && !errorMessage() && displayLimit() < processedItems().length"
+    >
+      <button class="load-more-btn" (click)="loadMore()">
+        <i class="material-icons">expand_more</i> {{ 'ITEMS.LOAD_MORE' | translate }}
+      </button>
     </div>
   </div>
-
-  <!-- Load More Button -->
-  <div class="load-more-container" *ngIf="!isLoading() && !errorMessage() && displayLimit() < processedItems().length">
-    <button class="load-more-btn" (click)="loadMore()">
-      <i class="material-icons">expand_more</i> Ver más resultados
-    </button>
-  </div>
-</div>
   <!-- Map Modal -->
   <div class="modal-overlay" *ngIf="selectedItem()" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
         <div class="modal-title-area">
-          <span class="badge"
-            [ngClass]="{'badge-hospital': selectedItem()?.type === ITEM_TYPE.HOSPITAL, 'badge-clinic': selectedItem()?.type === ITEM_TYPE.CLINIC, 'badge-other': selectedItem()?.type !== ITEM_TYPE.HOSPITAL && selectedItem()?.type !== ITEM_TYPE.CLINIC}">
+          <span
+            class="badge"
+            [ngClass]="{
+              'badge-hospital': selectedItem()?.type === ITEM_TYPE.HOSPITAL,
+              'badge-clinic': selectedItem()?.type === ITEM_TYPE.CLINIC,
+              'badge-other':
+                selectedItem()?.type !== ITEM_TYPE.HOSPITAL &&
+                selectedItem()?.type !== ITEM_TYPE.CLINIC,
+            }"
+          >
             {{ selectedItem()?.type | uppercase }}
           </span>
           <h2 class="modal-title">{{ selectedItem()?.name }}</h2>
@@ -142,18 +200,26 @@
               <ng-container *ngIf="live.isGeocoding && !live.city; else modalCity">
                 <span class="field-spinner"></span>
               </ng-container>
-              <ng-template #modalCity><span>{{ live.city }}</span></ng-template>
+              <ng-template #modalCity
+                ><span>{{ live.city }}</span></ng-template
+              >
               <span class="dot-separator">•</span>
               <ng-container *ngIf="live.isGeocoding && !live.address; else modalAddr">
                 <span class="field-spinner"></span>
               </ng-container>
-              <ng-template #modalAddr><span>{{ live.address }}</span></ng-template>
+              <ng-template #modalAddr
+                ><span>{{ live.address }}</span></ng-template
+              >
             </ng-container>
           </div>
         </div>
         <div class="modal-actions">
-          <button class="google-maps-btn"
-            (click)="openGoogleMaps(selectedItem()?.latitude ?? null, selectedItem()?.longitude ?? null)">
+          <button
+            class="google-maps-btn"
+            (click)="
+              openGoogleMaps(selectedItem()?.latitude ?? null, selectedItem()?.longitude ?? null)
+            "
+          >
             <i class="material-icons">launch</i> Google Maps
           </button>
           <button class="close-btn" (click)="closeModal()">
@@ -164,16 +230,22 @@
 
       <div class="modal-body">
         <div class="map-container" *ngIf="mapUrl()">
-          <iframe [src]="mapUrl()" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0"
-            marginwidth="0"></iframe>
+          <iframe
+            [src]="mapUrl()"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+          ></iframe>
           <div class="map-credits">
-            Reportar un problema | © Colaboradores de OpenStreetMap Hacer una donación. Términos del sitio web y de la
-            API
+            {{ 'ITEMS.MAP_CREDITS' | translate }}
           </div>
         </div>
         <div class="no-map-container" *ngIf="!mapUrl()">
           <i class="material-icons">location_off</i>
-          <p>Coordenadas no disponibles para este centro médico.</p>
+          <p>{{ 'ITEMS.NO_COORDINATES' | translate }}</p>
         </div>
       </div>
     </div>
