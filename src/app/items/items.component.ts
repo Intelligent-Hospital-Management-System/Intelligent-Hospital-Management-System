@@ -6,6 +6,7 @@ import { ItemStateService } from '../services/item-state.service';
 import { Item } from '../models/item.model';
 import { from, mergeMap } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TranslateModule } from '@ngx-translate/core';
 
 export enum ItemType {
   HOSPITAL = 'Hospital',
@@ -15,7 +16,7 @@ export enum ItemType {
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
 })

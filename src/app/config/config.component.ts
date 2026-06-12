@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './config.component.html',
-  styleUrls: ['./config.component.css']
+  styleUrls: ['./config.component.css'],
 })
 export class ConfigComponent implements OnInit {
   // Mock user info
@@ -15,17 +16,17 @@ export class ConfigComponent implements OnInit {
     name: 'Flor Varela',
     role: 'Administrador',
     email: 'flor.varela@hospital.com',
-    profilePic: 'https://i.pravatar.cc/150?u=florvarela'
+    profilePic: 'https://i.pravatar.cc/150?u=florvarela',
   };
 
   // App Info
   appInfo = {
     name: 'Intelligent Hospital Management System (IHMS)',
     version: '1.0.0',
-    userAgent: ''
+    userAgent: '',
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.appInfo.userAgent = navigator.userAgent;
