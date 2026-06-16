@@ -50,7 +50,6 @@ export class ConfigComponent implements OnInit {
     const confirmLogout = window.confirm('¿Estás seguro de que deseas cerrar sesión?');
     if (confirmLogout) {
       await this.authService.logout();
-      this.router.navigate(['/login']);
     }
   }
 }
