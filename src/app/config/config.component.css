@@ -151,3 +151,144 @@
   word-break: break-all;
   line-height: 1.4;
 }
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.0625rem solid #eee;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-title.mb-0 {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.edit-outline-button {
+  background-color: transparent;
+  color: #555;
+  border: 1px solid #555;
+  border-radius: 0.5rem;
+  padding: 0.35rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-outline-button:hover {
+  background-color: var(--primary-light-color);
+  color: white;
+}
+
+.profile-extra {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.small-icon {
+  font-size: 1rem;
+  color: #999;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.read-only-info {
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed #eee;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  color: #444;
+  font-weight: 500;
+}
+
+.form-control {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  background-color: var(--bg-color);
+}
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover, 
+.form-control:-webkit-autofill:focus, 
+.form-control:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--primary-light-color) inset !important;
+  -webkit-text-fill-color: #333 !important;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-light-color);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cancel-button {
+  background-color: var(--primary-light-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.cancel-button:hover {
+  background: linear-gradient(135deg, var(--primary-light-color) 0%, #ffffff 100%);
+}
+
+.save-button {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.save-button:hover {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light-color) 100%);
+}
+
+.date-input {
+  max-width: max-content;
+  min-width: 160px;
+}
+
