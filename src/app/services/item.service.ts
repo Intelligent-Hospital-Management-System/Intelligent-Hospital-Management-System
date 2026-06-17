@@ -35,7 +35,7 @@ interface GeocodeCache {
 })
 export class ItemService {
   private apiUrl = 'https://healthsites.io/api/v3/facilities/';
-  private proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+  private proxyUrl = 'https://corsproxy.io/?url=';
   private cacheKey = 'healthsitesCacheV3';
   private cacheDurationMs = 5 * 60 * 1000;
   private apiKey = '3cf67919f59931bd81146de940ffb6c418d238b3';
@@ -70,8 +70,8 @@ export class ItemService {
           return this.itemsRequest$;
     }
 
-    const targetUrl = `${this.apiUrl}?country=Argentina&api-key=${this.apiKey}&limit=5000`;
-    const finalUrl = `${this.proxyUrl}${encodeURIComponent(targetUrl)}`;
+    const targetUrl = `${this.apiUrl}?country=Argentina&api-key=${this.apiKey}&limit=1000`;
+    const finalUrl = `${this.proxyUrl}${targetUrl}`;
 
     this.itemsRequest$ = this.http.get<any>(finalUrl).pipe(
       map(response => {
