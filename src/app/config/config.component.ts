@@ -1,15 +1,16 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService , AuthUser } from '../services/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { AuthService, AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './config.component.html',
-  styleUrls: ['./config.component.css']
+  styleUrls: ['./config.component.css'],
 })
 export class ConfigComponent implements OnInit {
   private router = inject(Router);
@@ -20,28 +21,27 @@ export class ConfigComponent implements OnInit {
     name: '',
     email: '',
     profilePic: '',
-    role: 'Administrador'
+    role: 'Administrador',
   };
 
   // App Info
   appInfo = {
     name: 'Intelligent Hospital Management System (IHMS)',
     version: '1.0.0',
-    userAgent: ''
+    userAgent: '',
   };
 
   ngOnInit() {
     this.appInfo.userAgent = navigator.userAgent;
 
     this.authService.user$.subscribe((userData: AuthUser | null) => {
-      if (userData){
-        this.user.name =  userData.name;
+      if (userData) {
+        this.user.name = userData.name;
         this.user.email = userData.email;
         this.user.profilePic = userData.photoUrl || 'https://i.pravatar.cc/150';
         this.cdr.detectChanges();
-      }
-      else{
-        this.router.navigate(['/login'])
+      } else {
+        this.router.navigate(['/login']);
       }
     });
   }
@@ -50,6 +50,6 @@ export class ConfigComponent implements OnInit {
     const confirmLogout = window.confirm('¿Estás seguro de que deseas cerrar sesión?');
     if (confirmLogout) {
       await this.authService.logout();
+    }
   }
-}
 }

@@ -1,12 +1,19 @@
 <div class="config-container">
-  <h2 class="page-title">Configuración</h2>
+  <h2 class="page-title">{{ 'CONFIG.TITLE' | translate }}</h2>
 
   <div class="config-grid">
     <!-- User Profile Section -->
     <section class="config-card profile-card">
-      <h3 class="card-title">Perfil de Usuario</h3>
+      <h3 class="card-title">{{ 'CONFIG.PROFILE' | translate }}</h3>
       <div class="profile-info">
-        <img [src]="user.profilePic || 'https://i.pravatar.cc/150'" alt="Foto de perfil" class="profile-image" referrerpolicy="no-referrer" (error)="user.profilePic= 'https://i.pravatar.cc/150'">
+        <img
+          [src]="user.profilePic || 'https://i.pravatar.cc/150'"
+          alt="'CONFIG.PROFILE_PHOTO' | translate"
+          class="profile-image"
+          referrerpolicy="no-referrer"
+          (error)="user.profilePic = 'https://i.pravatar.cc/150'"
+        />
+
         <div class="profile-details">
           <h4 class="profile-name">{{ user.name }}</h4>
           <p class="profile-role">{{ user.role }}</p>
@@ -15,23 +22,23 @@
       </div>
       <button class="logout-button" (click)="logout()">
         <i class="material-icons">logout</i>
-        Cerrar Sesión
+        {{ 'CONFIG.LOGOUT' | translate }}
       </button>
     </section>
 
     <!-- App Info Section -->
     <section class="config-card app-info-card">
-      <h3 class="card-title">Acerca de la Aplicación</h3>
+      <h3 class="card-title">{{ 'CONFIG.ABOUT' | translate }}</h3>
       <div class="app-details">
         <div class="app-header">
-          <img src="/img/IHMS.png" alt="Logo de la Aplicación" class="app-logo">
+          <img src="/img/IHMS.png" [alt]="'CONFIG.APP_LOGO' | translate" class="app-logo" />
           <div>
             <h4 class="app-name">{{ appInfo.name }}</h4>
-            <p class="app-version">Versión {{ appInfo.version }}</p>
+            <p class="app-version">{{ 'CONFIG.VERSION' | translate }} {{ appInfo.version }}</p>
           </div>
         </div>
         <div class="user-agent-section">
-          <p class="user-agent-label">Información de tu navegador (User Agent):</p>
+          <p class="user-agent-label">{{ 'CONFIG.USER_AGENT' | translate }}</p>
           <div class="user-agent-box">
             {{ appInfo.userAgent }}
           </div>
