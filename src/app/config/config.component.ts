@@ -2,15 +2,16 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './config.component.html',
-  styleUrls: ['./config.component.css']
+  styleUrls: ['./config.component.css'],
 })
 export class ConfigComponent implements OnInit {
   private router = inject(Router);
@@ -21,7 +22,7 @@ export class ConfigComponent implements OnInit {
     name: '',
     email: '',
     profilePic: '',
-    role: 'Administrador'
+    role: 'Administrador',
   };
 
   userProfile: { phone: string; address: string; birthdate: string } = {
@@ -38,7 +39,7 @@ export class ConfigComponent implements OnInit {
   appInfo = {
     name: 'Intelligent Hospital Management System (IHMS)',
     version: '1.0.0',
-    userAgent: ''
+    userAgent: '',
   };
 
   get formattedBirthdate(): string {
@@ -70,9 +71,8 @@ export class ConfigComponent implements OnInit {
         this.user.email = userData.email;
         this.user.profilePic = userData.photoUrl || 'https://i.pravatar.cc/150';
         this.cdr.detectChanges();
-      }
-      else {
-        this.router.navigate(['/login'])
+      } else {
+        this.router.navigate(['/login']);
       }
     });
   }

@@ -1,14 +1,15 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   isLoading = signal(false);
@@ -17,7 +18,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
 
   constructor() {
-    this.authService.isLogged$.subscribe(isLogged => {
+    this.authService.isLogged$.subscribe((isLogged) => {
       if (isLogged) {
         this.router.navigate(['/main/items']);
       }
