@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, RouterLink],
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.css'],
 })
@@ -28,7 +29,7 @@ export class ConfigComponent implements OnInit {
   userProfile: { phone: string; address: string; birthdate: string } = {
     phone: '',
     address: '',
-    birthdate: ''
+    birthdate: '',
   };
 
   isEditing = false;
@@ -56,7 +57,7 @@ export class ConfigComponent implements OnInit {
     const minYear = today.getFullYear() - 100;
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
-    
+
     this.maxDate = `${maxYear}-${month}-${day}`;
     this.minDate = `${minYear}-${month}-${day}`;
 

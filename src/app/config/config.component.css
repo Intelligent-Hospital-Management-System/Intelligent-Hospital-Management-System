@@ -236,8 +236,8 @@
 }
 
 .form-control:-webkit-autofill,
-.form-control:-webkit-autofill:hover, 
-.form-control:-webkit-autofill:focus, 
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
 .form-control:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--primary-light-color) inset !important;
   -webkit-text-fill-color: #333 !important;
@@ -291,4 +291,31 @@
   max-width: max-content;
   min-width: 160px;
 }
-
+
+.edit-profile-button {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+
+  background-color: transparent;
+  color: #555;
+
+  border: 0.0625rem solid #555;
+  border-radius: 0.5rem;
+
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  transition: all 0.2s ease;
+}
+
+.edit-profile-button:hover {
+  background-color: var(--primary-light-color);
+  color: white;
+}

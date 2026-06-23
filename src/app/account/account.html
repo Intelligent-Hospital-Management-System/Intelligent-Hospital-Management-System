@@ -1,0 +1,19 @@
+<h1>Mi cuenta</h1>
+<form (ngSubmit)="saveProfile()">
+  <div class="form-group">
+    <label for="phone">Teléfono</label>
+    <input id="phone" name="phone" type="text" [(ngModel)]="userProfile.phone" />
+  </div>
+
+  <div class="form-group">
+    <label for="address">Dirección</label>
+    <input id="address" name="address" type="text" [(ngModel)]="userProfile.address" />
+  </div>
+
+  <div class="form-group">
+    <label for="birthdate">Fecha de nacimiento</label>
+    <input id="birthdate" name="birthdate" type="date" [(ngModel)]="userProfile.birthdate" />
+  </div>
+
+  <button type="submit">Guardar</button>
+</form>

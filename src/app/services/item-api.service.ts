@@ -16,8 +16,7 @@ export class ItemApiService {
   constructor(private http: HttpClient) {}
 
   getItems(): Observable<Item[]> {
-    const targetUrl = `${this.apiUrl}?country=Argentina&api-key=${this.apiKey}&limit=5000`;
-    const finalUrl = `${this.proxyUrl}${encodeURIComponent(targetUrl)}`;
+    const finalUrl = `${this.apiUrl}?country=AR&api-key=${this.apiKey}&limit=5000`;
 
     return this.http.get<any>(finalUrl).pipe(
       map((response) => {
