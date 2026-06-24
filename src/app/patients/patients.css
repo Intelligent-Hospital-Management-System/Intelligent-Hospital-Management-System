@@ -55,4 +55,16 @@
 
 .patient-card p {
   margin: 0.125rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.patient-card {
+  overflow: hidden;
+}
+
+.patient-card div {
+  flex: 1;
+  min-width: 0;
 }
