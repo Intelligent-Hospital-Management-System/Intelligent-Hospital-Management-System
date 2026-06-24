@@ -1,6 +1,7 @@
 import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PatientsStateService } from '../services/patients-state.service';
 import { PatientsService } from '../services/patients.service';
 
 @Component({
@@ -10,15 +11,15 @@ import { PatientsService } from '../services/patients.service';
   styleUrl: './patients.css',
 })
 export class Patients {
-  private patientsService = inject(PatientsService);
+  private patientsStateService = inject(PatientsStateService);
   searchText = signal('');
 
-  patients = this.patientsService.patients;
-  isLoading = this.patientsService.isLoading;
-  errorMessage = this.patientsService.errorMessage;
+  patients = this.patientsStateService.patients;
+  isLoading = this.patientsStateService.isLoading;
+  errorMessage = this.patientsStateService.errorMessage;
 
   constructor() {
-    this.patientsService.loadPatients();
+    this.patientsStateService.loadPatients();
   }
   filteredPatients = computed(() => {
     const search = this.searchText().toLowerCase();
