@@ -18,7 +18,7 @@ export const routes: Routes = [
       },
       {
         path: 'config/account',
-        loadComponent: () => import('./account/account').then((m) => m.Account),
+        loadComponent: () => import('./account/account.component').then((m) => m.Account),
       },
       {
         path: 'config',

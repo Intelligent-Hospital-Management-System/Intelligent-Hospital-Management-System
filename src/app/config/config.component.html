@@ -13,7 +13,6 @@
           referrerpolicy="no-referrer"
           (error)="user.profilePic = 'https://i.pravatar.cc/150'"
         />
-
         <div class="profile-details">
           <h4 class="profile-name">{{ user.name }}</h4>
           <p class="profile-role">{{ user.role }}</p>
@@ -29,12 +28,12 @@
           </p>
         </div>
       </div>
+      <button class="edit-profile-button" routerLink="/main/config/account">
+        <i class="material-icons">edit</i> Editar perfil
+      </button>
       <button class="logout-button" (click)="logout()">
         <i class="material-icons">logout</i>
         {{ 'CONFIG.LOGOUT' | translate }}
-      </button>
-      <button class="edit-profile-button" routerLink="/main/config/account">
-        <i class="material-icons">edit</i> Editar perfil
       </button>
     </section>
     <!-- App Info Section -->
