@@ -2,21 +2,23 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ItemService, Item } from '../services/item.service';
+import { ItemStateService } from '../services/item-state.service';
+import { Item } from '../models/item.model';
 import { from, mergeMap } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TranslateModule } from '@ngx-translate/core';
 
 export enum ItemType {
   HOSPITAL = 'Hospital',
-  CLINIC = 'Clínica'
+  CLINIC = 'Clínica',
 }
 
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css']
+  styleUrls: ['./items.component.css'],
 })
 export class ItemsComponent implements OnInit {
   readonly ITEM_TYPE = ItemType;
@@ -38,22 +40,27 @@ export class ItemsComponent implements OnInit {
 
   processedItems = computed(() => {
     let result = [...this.items()];
-    
+
     const filter = this.normalizeText(this.filterText());
     if (filter) {
-      result = result.filter(item => {
+      result = result.filter((item) => {
         const name = this.normalizeText(item.name);
         const city = this.normalizeText(item.city);
         const address = this.normalizeText(item.address);
         const type = this.normalizeText(item.type);
-        
-        return name.includes(filter) || city.includes(filter) || address.includes(filter) || type.includes(filter);
+
+        return (
+          name.includes(filter) ||
+          city.includes(filter) ||
+          address.includes(filter) ||
+          type.includes(filter)
+        );
       });
     }
 
     const typeFilter = this.selectedTypeFilter();
     if (typeFilter) {
-      result = result.filter(item => item.type === typeFilter);
+      result = result.filter((item) => item.type === typeFilter);
     }
 
     const sortField = this.sortBy();
@@ -61,7 +68,8 @@ export class ItemsComponent implements OnInit {
     result.sort((a, b) => {
       const valA = a[sortField];
       const valB = b[sortField];
-      if (typeof valA === 'string' && typeof valB === 'string') return valA.localeCompare(valB) * asc;
+      if (typeof valA === 'string' && typeof valB === 'string')
+        return valA.localeCompare(valB) * asc;
       if (valA < valB) return -1 * asc;
       if (valA > valB) return 1 * asc;
       return 0;
@@ -76,18 +84,18 @@ export class ItemsComponent implements OnInit {
   liveSelectedItem = computed(() => {
     const sel = this.selectedItem();
     if (!sel) return null;
-    return this.items().find(i => i.id === sel.id) ?? sel;
+    return this.items().find((i) => i.id === sel.id) ?? sel;
   });
 
   constructor(
-    private itemService: ItemService,
-    private sanitizer: DomSanitizer
-  ) { }
+    private itemService: ItemStateService,
+    private sanitizer: DomSanitizer,
+  ) {}
 
-  normalizeText(text?: string | null): string{
+  normalizeText(text?: string | null): string {
     if (!text) {
-    return '';
-  }
+      return '';
+    }
     return text
       .toLowerCase()
       .normalize('NFD')
@@ -103,7 +111,7 @@ export class ItemsComponent implements OnInit {
 
     this.itemService.getItems().subscribe({
       next: (data) => {
-        const itemsWithGeocodingState = data.map(item => ({ ...item, isGeocoding: false }));
+        const itemsWithGeocodingState = data.map((item) => ({ ...item, isGeocoding: false }));
         this.items.set(itemsWithGeocodingState);
         this.isLoading.set(false);
         this.triggerGeocoding(data);
@@ -111,36 +119,45 @@ export class ItemsComponent implements OnInit {
       error: (err) => {
         this.errorMessage.set(err.message);
         this.isLoading.set(false);
-      }
+      },
     });
   }
 
   private triggerGeocoding(items: Item[]) {
-    const toGeocode = items.filter(item => this.itemService.needsGeocode(item));
+    const toGeocode = items.filter((item) => this.itemService.needsGeocode(item));
     if (toGeocode.length === 0) return;
 
-    const toGeocodeIds = new Set(toGeocode.map(i => i.id));
-    this.items.update(all => 
-      all.map(i => toGeocodeIds.has(i.id) ? { ...i, isGeocoding: true } : i)
+    const toGeocodeIds = new Set(toGeocode.map((i) => i.id));
+    this.items.update((all) =>
+      all.map((i) => (toGeocodeIds.has(i.id) ? { ...i, isGeocoding: true } : i)),
     );
 
-    from(toGeocode).pipe(
-      mergeMap(item =>
-        this.itemService.reverseGeocode(item.latitude!, item.longitude!).pipe(
-          map(result => ({ item, result }))
+    from(toGeocode)
+      .pipe(
+        mergeMap(
+          (item) =>
+            this.itemService
+              .reverseGeocode(item.latitude!, item.longitude!)
+              .pipe(map((result) => ({ item, result }))),
+          5, // máx 5 requests simultáneos
         ),
-        5 // máx 5 requests simultáneos
       )
-    ).subscribe({
-      next: ({ item, result }) => {
-        this.items.update(all =>
-          all.map(i => i.id === item.id
-            ? { ...i, city: result.city || i.city, address: result.address || i.address, isGeocoding: false }
-            : i
-          )
-        );
-      }
-    });
+      .subscribe({
+        next: ({ item, result }) => {
+          this.items.update((all) =>
+            all.map((i) =>
+              i.id === item.id
+                ? {
+                    ...i,
+                    city: result.city || i.city,
+                    address: result.address || i.address,
+                    isGeocoding: false,
+                  }
+                : i,
+            ),
+          );
+        },
+      });
   }
   onFilterChange(text: string) {
     this.filterText.set(text);
@@ -164,7 +181,7 @@ export class ItemsComponent implements OnInit {
   }
 
   loadMore() {
-    this.displayLimit.update(c => c + 100);
+    this.displayLimit.update((c) => c + 100);
   }
 
   clearCacheAndReload() {

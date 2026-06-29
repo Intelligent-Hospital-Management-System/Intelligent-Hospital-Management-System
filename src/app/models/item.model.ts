@@ -6,4 +6,21 @@ export interface Item {
   type: string;
   latitude: number | null;
   longitude: number | null;
+  isGeocoding?: boolean;
+  [key: string]: any;
+}
+
+export interface CacheData {
+  timestamp: number;
+  data: Item[];
+}
+
+export interface GeocodeCacheEntry {
+  city: string;
+  address: string;
+  timestamp: number;
+}
+
+export interface GeocodeCache {
+  [key: string]: GeocodeCacheEntry;
 }

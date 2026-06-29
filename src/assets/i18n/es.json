@@ -1,0 +1,41 @@
+{
+  "ITEMS": {
+    "NAME": "Nombre",
+    "CITY": "Ciudad",
+    "FILTER": "Filtrar:",
+    "TYPE": "Tipo",
+    "SUBTITLE": "Hospitales y Clínicas de Argentina",
+    "UPDATE": "Actualizar",
+    "RETRY": "Reintentar",
+    "SEARCH_PLACEHOLDER": "Filtrar por nombre, ciudad, dirección, tipo...",
+    "SORT": "Ordenar:",
+    "HOSPITAL": "Hospital",
+    "CLINIC": "Clínica",
+    "ALL": "Todos",
+    "SHOWING": "Mostrando",
+    "OF": "de",
+    "HEALTH_CENTERS": "centros de salud",
+    "CONNECTING": "Conectando con Healthsites.io...",
+    "VIEW_MAP": "Ver mapa",
+    "EMPTY": "No se encontraron centros médicos que coincidan con la búsqueda.",
+    "LOAD_MORE": "Ver más resultados",
+    "MAP_CREDITS": "Reportar un problema",
+    "NO_COORDINATES": "Coordenadas no disponibles para este centro médico."
+  },
+  "CONFIG": {
+    "TITLE": "Configuración",
+    "PROFILE": "Perfil de Usuario",
+    "LOGOUT": "Cerrar Sesión",
+    "ABOUT": "Acerca de la Aplicación",
+    "PROFILE_PHOTO": "Foto de Perfil",
+    "APP_LOGO": "Logo de la Aplicacion",
+    "VERSION": "Versión",
+    "USER_AGENT": "Información de tu navegador (USER AGENT)"
+  },
+  "LOGIN": {
+    "BUTTON": "Iniciar sesión con Google",
+    "TITLE":"Bienvendios a IHMS",
+    "SUBTITLE":"Ingresa para continuar",
+    "LOGO": "Logo de la Aplicación"
+  }
+}
