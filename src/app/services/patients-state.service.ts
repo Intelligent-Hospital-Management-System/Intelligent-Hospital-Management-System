@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { PatientsService } from './patients.service';
-import { PatientsStorageService, Patient } from './patients-storage.service';
+import { ItemStorageService } from './item-storage.service';
+import { Patient } from './patients.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,11 @@ export class PatientsStateService {
 
   constructor(
     private patientsService: PatientsService,
-    private storageService: PatientsStorageService,
+    private storageService: ItemStorageService,
   ) {}
 
   async loadPatients(): Promise<void> {
-    const cachedPatients = this.storageService.getPatients();
+    const cachedPatients = this.storageService.getData<Patient>('patientsCache');
 
     if (cachedPatients) {
       this.patients.set(cachedPatients);
@@ -30,7 +31,7 @@ export class PatientsStateService {
       const patients = await this.patientsService.getPatients();
 
       this.patients.set(patients);
-      this.storageService.savePatients(patients);
+      this.storageService.saveData<Patient>('patientsCache', patients);
     } catch {
       this.errorMessage.set('No se pudieron cargar los pacientes.');
     } finally {

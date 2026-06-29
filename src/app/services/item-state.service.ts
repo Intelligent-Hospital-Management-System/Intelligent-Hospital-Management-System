@@ -15,7 +15,7 @@ export class ItemStateService {
   ) {}
 
   getItems(): Observable<Item[]> {
-    const cachedItems = this.storageService.getItems();
+    const cachedItems = this.storageService.getData<Item>('healthsitesCacheV3');
 
     if (cachedItems) {
       return of(cachedItems);
@@ -23,7 +23,7 @@ export class ItemStateService {
 
     return this.apiService.getItems().pipe(
       tap((items) => {
-        this.storageService.saveItems(items);
+        this.storageService.saveData<Item>('healthsitesCacheV3', items);
       }),
     );
   }
