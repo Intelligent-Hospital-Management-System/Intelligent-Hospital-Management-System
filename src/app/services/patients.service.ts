@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { from, Observable } from 'rxjs';
 
 export interface Patient {
   name: {
@@ -16,10 +17,11 @@ export interface Patient {
   providedIn: 'root',
 })
 export class PatientsService {
-  async getPatients(): Promise<Patient[]> {
-    const response = await fetch('https://randomuser.me/api/?results=20');
-    const data = await response.json();
-
-    return data.results;
+  getPatients(): Observable<Patient[]> {
+    return from(
+      fetch('https://randomuser.me/api/?results=20')
+        .then((response) => response.json())
+        .then((data) => data.results),
+    );
   }
 }

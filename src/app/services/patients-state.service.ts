@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { PatientsService } from './patients.service';
+import { PatientsService, Patient } from './patients.service';
 import { ItemStorageService } from './item-storage.service';
-import { Patient } from './patients.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,7 @@ export class PatientsStateService {
     this.errorMessage.set('');
 
     try {
-      const patients = await this.patientsService.getPatients();
+      const patients = await firstValueFrom(this.patientsService.getPatients());
 
       this.patients.set(patients);
       this.storageService.saveData<Patient>('patientsCache', patients);
