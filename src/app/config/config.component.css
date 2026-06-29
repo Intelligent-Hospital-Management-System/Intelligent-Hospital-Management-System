@@ -236,8 +236,8 @@
 }
 
 .form-control:-webkit-autofill,
-.form-control:-webkit-autofill:hover, 
-.form-control:-webkit-autofill:focus, 
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
 .form-control:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--primary-light-color) inset !important;
   -webkit-text-fill-color: #333 !important;
@@ -291,4 +291,3 @@
   max-width: max-content;
   min-width: 160px;
 }
-

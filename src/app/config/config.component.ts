@@ -28,7 +28,7 @@ export class ConfigComponent implements OnInit {
   userProfile: { phone: string; address: string; birthdate: string } = {
     phone: '',
     address: '',
-    birthdate: ''
+    birthdate: '',
   };
 
   isEditing = false;
@@ -56,7 +56,7 @@ export class ConfigComponent implements OnInit {
     const minYear = today.getFullYear() - 100;
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
-    
+
     this.maxDate = `${maxYear}-${month}-${day}`;
     this.minDate = `${minYear}-${month}-${day}`;
 
