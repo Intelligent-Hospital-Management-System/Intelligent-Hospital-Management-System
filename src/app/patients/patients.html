@@ -1,0 +1,38 @@
+<section class="patients-page">
+  <div class="patients-header">
+    <div>
+      <h1>Pacientes</h1>
+      <p>Listado de pacientes registrados en el sistema</p>
+    </div>
+
+    <button type="button" class="add-button">Agregar</button>
+  </div>
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Buscar paciente..."
+    [ngModel]="searchText()"
+    (ngModelChange)="onSearchChange($event)"
+  />
+  @if (isLoading()) {
+    <p>Cargando pacientes...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+
+  <div class="patients-list">
+    @for (patient of filteredPatients(); track patient.email) {
+      <article class="patient-card">
+        <img [src]="patient.picture.thumbnail" alt="Foto del paciente" />
+
+        <div>
+          <h3>{{ patient.name.first }} {{ patient.name.last }}</h3>
+          <p>{{ patient.email }}</p>
+          <p>{{ patient.phone }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>

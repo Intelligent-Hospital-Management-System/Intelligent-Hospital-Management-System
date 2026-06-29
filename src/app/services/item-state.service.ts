@@ -14,18 +14,21 @@ export class ItemStateService {
     private storageService: ItemStorageService,
   ) {}
 
-  getItems(): Observable<Item[]> {
-    const cachedItems = this.storageService.getItems();
+  getCachedData<T>(cacheKey: string, fetchData: () => Observable<T[]>): Observable<T[]> {
+    const cachedData = this.storageService.getData<T>(cacheKey);
 
-    if (cachedItems) {
-      return of(cachedItems);
+    if (cachedData) {
+      return of(cachedData);
     }
 
-    return this.apiService.getItems().pipe(
-      tap((items) => {
-        this.storageService.saveItems(items);
+    return fetchData().pipe(
+      tap((data) => {
+        this.storageService.saveData<T>(cacheKey, data);
       }),
     );
+  }
+  getItems(): Observable<Item[]> {
+    return this.getCachedData<Item>('healthsitesCacheV3', () => this.apiService.getItems());
   }
   needsGeocode(item: Item): boolean {
     return (!item.city || !item.address) && item.latitude !== null && item.longitude !== null;
