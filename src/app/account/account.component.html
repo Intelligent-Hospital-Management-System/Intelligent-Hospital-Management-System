@@ -1,0 +1,100 @@
+<div class="config-container">
+  <h2 class="page-title">Configuración</h2>
+
+  <div class="config-grid">
+    <section class="config-card profile-card">
+      <h3 class="card-title">Editar Perfil</h3>
+      <form (ngSubmit)="saveProfile()" class="edit-form" #editForm="ngForm">
+        <div class="profile-info read-only-info">
+          <img
+            [src]="user.profilePic || 'https://i.pravatar.cc/150'"
+            alt="Foto de perfil"
+            class="profile-image"
+            referrerpolicy="no-referrer"
+            (error)="user.profilePic = 'https://i.pravatar.cc/150'"
+          />
+          <div class="profile-details">
+            <h4 class="profile-name">{{ user.name }}</h4>
+            <p class="profile-email">{{ user.email }}</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Teléfono</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            [(ngModel)]="userProfile.phone"
+            class="form-control"
+            placeholder="Ej: 1112345678"
+            required
+            minlength="10"
+            maxlength="15"
+            (input)="onPhoneInput($event)"
+            #phoneCtrl="ngModel"
+          />
+          <div
+            *ngIf="phoneCtrl.invalid && (phoneCtrl.dirty || phoneCtrl.touched)"
+            class="error-text"
+          >
+            <small *ngIf="phoneCtrl.errors?.['required']">El teléfono es obligatorio.</small>
+            <small *ngIf="phoneCtrl.errors?.['minlength']">Debe tener al menos 10 números.</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Dirección</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            [(ngModel)]="userProfile.address"
+            class="form-control"
+            required
+            minlength="2"
+            maxlength="128"
+            #addressCtrl="ngModel"
+          />
+          <div
+            *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched)"
+            class="error-text"
+          >
+            <small *ngIf="addressCtrl.errors?.['required']">La dirección es obligatoria.</small>
+            <small *ngIf="addressCtrl.errors?.['minlength']"
+              >Debe tener al menos 2 caracteres.</small
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="birthdate">Fecha de Nacimiento</label>
+          <input
+            type="date"
+            id="birthdate"
+            name="birthdate"
+            [(ngModel)]="userProfile.birthdate"
+            class="form-control date-input"
+            [max]="maxDate"
+            [min]="minDate"
+            required
+            #birthdateCtrl="ngModel"
+          />
+          <div
+            *ngIf="birthdateCtrl.invalid && (birthdateCtrl.dirty || birthdateCtrl.touched)"
+            class="error-text"
+          >
+            <small *ngIf="birthdateCtrl.errors?.['required']"
+              >La fecha de nacimiento es obligatoria.</small
+            >
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="cancel-button" (click)="cancelEdit()">Cancelar</button>
+          <button type="submit" class="save-button">Guardar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

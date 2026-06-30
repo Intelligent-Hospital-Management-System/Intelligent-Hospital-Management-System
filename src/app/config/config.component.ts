@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, RouterLink],
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.css'],
 })
@@ -69,7 +70,7 @@ export class ConfigComponent implements OnInit {
       if (userData) {
         this.user.name = userData.name;
         this.user.email = userData.email;
-        this.user.profilePic = userData.photoUrl || 'https://i.pravatar.cc/150';
+        this.user.profilePic = userData.photoUrl;
         this.cdr.detectChanges();
       } else {
         this.router.navigate(['/login']);
