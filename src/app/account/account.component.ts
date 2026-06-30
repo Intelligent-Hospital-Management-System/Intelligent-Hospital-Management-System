@@ -3,6 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, AuthUser } from '../services/auth.service';
+import { ProfileStorageService, UserProfile } from '../services/profile-storage.service';
 
 @Component({
   selector: 'app-account',
@@ -14,6 +15,7 @@ import { AuthService, AuthUser } from '../services/auth.service';
 export class Account implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
+  private profileStorageService = inject(ProfileStorageService);
 
   user: { name: string; email: string; profilePic: string } = {
     name: '',
@@ -21,7 +23,7 @@ export class Account implements OnInit {
     profilePic: '',
   };
 
-  userProfile = {
+  userProfile: UserProfile = {
     phone: '',
     address: '',
     birthdate: '',
@@ -40,17 +42,17 @@ export class Account implements OnInit {
     this.maxDate = `${year}-${month}-${day}`;
     this.minDate = `${minYear}-${month}-${day}`;
 
-    const savedProfile = localStorage.getItem('userProfile');
+    const savedProfile = this.profileStorageService.getUserProfile();
 
     if (savedProfile) {
-      this.userProfile = JSON.parse(savedProfile);
+      this.userProfile = savedProfile;
     }
 
     this.authService.user$.subscribe((userData: AuthUser | null) => {
       if (userData) {
         this.user.name = userData.name;
         this.user.email = userData.email;
-        this.user.profilePic = userData.photoUrl || 'https://i.pravatar.cc/150';
+        this.user.profilePic = userData.photoUrl;
       }
     });
   }
@@ -74,7 +76,7 @@ export class Account implements OnInit {
       return;
     }
 
-    localStorage.setItem('userProfile', JSON.stringify(this.userProfile));
+    this.profileStorageService.saveUserProfile(this.userProfile);
     this.router.navigate(['/main/config']);
   }
 

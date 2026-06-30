@@ -70,7 +70,7 @@ export class ConfigComponent implements OnInit {
       if (userData) {
         this.user.name = userData.name;
         this.user.email = userData.email;
-        this.user.profilePic = userData.photoUrl || 'https://i.pravatar.cc/150';
+        this.user.profilePic = userData.photoUrl;
         this.cdr.detectChanges();
       } else {
         this.router.navigate(['/login']);
