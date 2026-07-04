@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, AuthUser } from '../services/auth.service';
-import { ProfileStorageService, UserProfile } from '../services/profile-storage.service';
+import { StorageService, UserProfile } from '../services/storage.service';
 
 @Component({
   selector: 'app-account',
@@ -15,7 +15,7 @@ import { ProfileStorageService, UserProfile } from '../services/profile-storage.
 export class Account implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
-  private profileStorageService = inject(ProfileStorageService);
+  private profileStorageService = inject(StorageService);
 
   user: { name: string; email: string; profilePic: string } = {
     name: '',
