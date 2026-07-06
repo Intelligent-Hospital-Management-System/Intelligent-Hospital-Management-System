@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ProfileStateService, UserProfile } from '../services/profile-state.service';
 
 @Component({
   selector: 'app-config',
@@ -18,6 +19,7 @@ export class ConfigComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private profileService = inject(ProfileStateService);
 
   user: { name: string; email: string; profilePic: string; role: string } = {
     name: '',
@@ -26,7 +28,7 @@ export class ConfigComponent implements OnInit {
     role: 'Administrador',
   };
 
-  userProfile: { phone: string; address: string; birthdate: string } = {
+  userProfile: UserProfile = {
     phone: '',
     address: '',
     birthdate: '',
@@ -60,10 +62,9 @@ export class ConfigComponent implements OnInit {
 
     this.maxDate = `${maxYear}-${month}-${day}`;
     this.minDate = `${minYear}-${month}-${day}`;
-
-    const savedProfile = localStorage.getItem('userProfile');
+    const savedProfile = this.profileService.getProfile();
     if (savedProfile) {
-      this.userProfile = JSON.parse(savedProfile);
+      this.userProfile = savedProfile;
     }
 
     this.authService.user$.subscribe((userData: AuthUser | null) => {
@@ -84,14 +85,14 @@ export class ConfigComponent implements OnInit {
 
   cancelEdit() {
     this.isEditing = false;
-    const savedProfile = localStorage.getItem('userProfile');
+    const savedProfile = this.profileService.getProfile();
     if (savedProfile) {
-      this.userProfile = JSON.parse(savedProfile);
+      this.userProfile = savedProfile;
     }
   }
 
   saveProfile() {
-    localStorage.setItem('userProfile', JSON.stringify(this.userProfile));
+    this.profileService.saveProfile(this.userProfile);
     this.isEditing = false;
   }
 
