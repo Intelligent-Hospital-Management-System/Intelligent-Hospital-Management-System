@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { PatientsService, Patient } from './patients.service';
-import { ItemStorageService } from './item-storage.service';
+import { StorageService } from './storage.service';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class PatientsStateService {
 
   constructor(
     private patientsService: PatientsService,
-    private storageService: ItemStorageService,
+    private storageService: StorageService,
   ) {}
 
   async loadPatients(): Promise<void> {
