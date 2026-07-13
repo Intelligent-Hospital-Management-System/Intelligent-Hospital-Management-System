@@ -2,6 +2,7 @@ import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
   importProvidersFrom,
+  isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
@@ -11,6 +12,7 @@ import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translat
 import { routes } from './app.routes';
 import { initializeApp } from 'firebase/app';
 import { environment } from '../environments/environment';
+import { provideServiceWorker } from '@angular/service-worker';
 
 initializeApp(environment.firebaseConfig);
 
@@ -40,5 +42,9 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };
