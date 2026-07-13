@@ -1,0 +1,13 @@
+{
+  "ci": {
+    "collect": {
+      "url": ["http://localhost:4200/"],
+      "startServerCommand": "npm start",
+      "numberOfRuns": 1
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": "./lhci-reports"
+    }
+  }
+}

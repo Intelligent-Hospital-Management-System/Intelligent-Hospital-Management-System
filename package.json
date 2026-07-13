@@ -8,7 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prepare": "husky",
-    "lint:staged": "lint-staged"
+    "lint:staged": "lint-staged",
+    "lhci": "lhci autorun",
+    "build:stats": "ng build --stats-json",
+    "analyze":"npm run build:stats && npx esbuild-visualizer --metadata dist/ihms/stats.json --filename dist/ihms/esbuild-report.html"
   },
   "private": true,
   "packageManager": "npm@11.12.1",
@@ -23,6 +26,7 @@
     "@angular/router": "^21.2.0",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
+    "@sentry/angular": "^10.64.0",
     "firebase": "^12.14.0",
     "material-icons": "^1.13.14",
     "rxjs": "~7.8.0",
@@ -33,6 +37,8 @@
     "@angular/cli": "^21.2.7",
     "@angular/compiler-cli": "^21.2.0",
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
+    "esbuild-visualizer": "^0.7.0",
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "husky": "^9.1.7",
