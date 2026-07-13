@@ -1,19 +1,21 @@
 <section class="patients-page">
-  <div class="patients-header">
-    <div>
-      <h1>Pacientes</h1>
-      <p>Listado de pacientes registrados en el sistema</p>
-    </div>
+  <div class="patients-sticky">
+    <div class="patients-header">
+      <div>
+        <h1>Pacientes</h1>
+        <p>Listado de pacientes registrados en el sistema</p>
+      </div>
 
-    <button type="button" class="add-button">Agregar</button>
+      <button type="button" class="add-button">Agregar</button>
+    </div>
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Buscar paciente..."
+      [ngModel]="searchText()"
+      (ngModelChange)="onSearchChange($event)"
+    />
   </div>
-  <input
-    type="text"
-    class="search-input"
-    placeholder="Buscar paciente..."
-    [ngModel]="searchText()"
-    (ngModelChange)="onSearchChange($event)"
-  />
   @if (isLoading()) {
     <p>Cargando pacientes...</p>
   }
