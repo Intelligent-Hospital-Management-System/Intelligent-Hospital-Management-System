@@ -7,11 +7,11 @@
       <h3 class="card-title">{{ 'CONFIG.PROFILE' | translate }}</h3>
       <div class="profile-info">
         <img
-          [src]="user.profilePic || 'https://i.pravatar.cc/150'"
+          [src]="user.profilePic || '/img/default-avatar.png'"
           alt="'CONFIG.PROFILE_PHOTO' | translate"
           class="profile-image"
           referrerpolicy="no-referrer"
-          (error)="user.profilePic = 'https://i.pravatar.cc/150'"
+          (error)="user.profilePic = '/img/default-avatar.png'"
         />
         <div class="profile-details">
           <h4 class="profile-name">{{ user.name }}</h4>

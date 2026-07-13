@@ -83,19 +83,6 @@ export class ConfigComponent implements OnInit {
     this.isEditing = true;
   }
 
-  cancelEdit() {
-    this.isEditing = false;
-    const savedProfile = this.profileService.getProfile();
-    if (savedProfile) {
-      this.userProfile = savedProfile;
-    }
-  }
-
-  saveProfile() {
-    this.profileService.saveProfile(this.userProfile);
-    this.isEditing = false;
-  }
-
   async logout() {
     const confirmLogout = window.confirm('¿Estás seguro de que deseas cerrar sesión?');
     if (confirmLogout) {

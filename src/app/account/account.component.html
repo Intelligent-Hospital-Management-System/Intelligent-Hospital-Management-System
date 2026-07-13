@@ -7,11 +7,11 @@
       <form (ngSubmit)="saveProfile()" class="edit-form" #editForm="ngForm">
         <div class="profile-info read-only-info">
           <img
-            [src]="user.profilePic || 'https://i.pravatar.cc/150'"
+            [src]="user.profilePic || '/img/default-avatar.png'"
             alt="Foto de perfil"
             class="profile-image"
             referrerpolicy="no-referrer"
-            (error)="user.profilePic = 'https://i.pravatar.cc/150'"
+            (error)="user.profilePic = '/img/default-avatar.png'"
           />
           <div class="profile-details">
             <h4 class="profile-name">{{ user.name }}</h4>
