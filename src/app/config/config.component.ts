@@ -9,7 +9,7 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.css'],
 })
