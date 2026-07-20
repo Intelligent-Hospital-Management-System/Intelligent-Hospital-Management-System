@@ -7,25 +7,35 @@
       <h3 class="card-title">{{ 'CONFIG.PROFILE' | translate }}</h3>
       <div class="profile-info">
         <img
-          [src]="user.profilePic || 'https://i.pravatar.cc/150'"
+          [src]="user.profilePic || '/img/default-avatar.png'"
           alt="'CONFIG.PROFILE_PHOTO' | translate"
           class="profile-image"
           referrerpolicy="no-referrer"
-          (error)="user.profilePic = 'https://i.pravatar.cc/150'"
+          (error)="user.profilePic = '/img/default-avatar.png'"
         />
-
         <div class="profile-details">
           <h4 class="profile-name">{{ user.name }}</h4>
           <p class="profile-role">{{ user.role }}</p>
           <p class="profile-email">{{ user.email }}</p>
+          <p class="profile-extra" *ngIf="userProfile.phone">
+            <i class="material-icons small-icon">phone</i> {{ userProfile.phone }}
+          </p>
+          <p class="profile-extra" *ngIf="userProfile.address">
+            <i class="material-icons small-icon">location_on</i> {{ userProfile.address }}
+          </p>
+          <p class="profile-extra" *ngIf="userProfile.birthdate">
+            <i class="material-icons small-icon">cake</i> {{ formattedBirthdate }}
+          </p>
         </div>
       </div>
+      <button class="edit-profile-button" routerLink="/main/config/account">
+        <i class="material-icons">edit</i> Editar perfil
+      </button>
       <button class="logout-button" (click)="logout()">
         <i class="material-icons">logout</i>
         {{ 'CONFIG.LOGOUT' | translate }}
       </button>
     </section>
-
     <!-- App Info Section -->
     <section class="config-card app-info-card">
       <h3 class="card-title">{{ 'CONFIG.ABOUT' | translate }}</h3>

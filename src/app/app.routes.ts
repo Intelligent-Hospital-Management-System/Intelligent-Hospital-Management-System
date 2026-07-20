@@ -21,10 +21,18 @@ export const routes: Routes = [
         loadComponent: () => import('./patients/patients').then((m) => m.Patients),
       },
       {
+        path: 'config/account',
+        loadComponent: () => import('./account/account.component').then((m) => m.Account),
+      },
+      {
         path: 'config',
         loadComponent: () => import('./config/config.component').then((m) => m.ConfigComponent),
       },
-      { path: '', redirectTo: 'items', pathMatch: 'full' },
+      {
+        path: '',
+        redirectTo: 'items',
+        pathMatch: 'full',
+      },
     ],
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
