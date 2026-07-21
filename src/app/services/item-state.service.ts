@@ -14,7 +14,7 @@ export class ItemStateService {
     private storageService: StorageService,
   ) {}
 
-  getCachedData<T>(cacheKey: string, fetchData: () => Observable<T[]>): Observable<T[]> {
+  #getCachedData<T>(cacheKey: string, fetchData: () => Observable<T[]>): Observable<T[]> {
     const cachedData = this.storageService.getData<T>(cacheKey);
 
     if (cachedData) {
@@ -32,7 +32,7 @@ export class ItemStateService {
     );
   }
   getItems(): Observable<Item[]> {
-    return this.getCachedData<Item>('healthsitesCacheV3', () => this.apiService.getItems());
+    return this.#getCachedData<Item>('healthsitesCacheV3', () => this.apiService.getItems());
   }
   needsGeocode(item: Item): boolean {
     return (!item.city || !item.address) && item.latitude !== null && item.longitude !== null;
