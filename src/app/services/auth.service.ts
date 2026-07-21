@@ -30,7 +30,9 @@ export class AuthService {
       observer.next({
         name: currentUser.displayName ?? 'Usuario',
         email: currentUser.email ?? '',
-        photoUrl: currentUser.photoURL ? `${currentUser.photoURL}?sz=150` : '',
+        photoUrl: currentUser.photoURL
+          ? `${currentUser.photoURL}?sz=150`
+          : '/img/default-avatar.png',
       });
     });
     return unsubscribe;
