@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { AnalyticsService } from '../services/analytics';
 import { RouterLink } from '@angular/router';
 import { ProfileStateService, UserProfile } from '../services/profile-state.service';
 
@@ -19,6 +20,7 @@ export class ConfigComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private analyticsService = inject(AnalyticsService);
   private profileService = inject(ProfileStateService);
 
   user: { name: string; email: string; profilePic: string; role: string } = {
@@ -52,6 +54,7 @@ export class ConfigComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.analyticsService.dashboardViewed();
     this.appInfo.userAgent = navigator.userAgent;
 
     const today = new Date();
