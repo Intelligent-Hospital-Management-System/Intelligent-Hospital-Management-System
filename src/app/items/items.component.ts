@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -7,6 +7,7 @@ import { Item } from '../models/item.model';
 import { from, mergeMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core';
+import { AnalyticsService } from '../services/analytics';
 
 export enum ItemType {
   HOSPITAL = 'Hospital',
@@ -37,6 +38,7 @@ export class ItemsComponent implements OnInit {
 
   selectedItem = signal<Item | null>(null);
   mapUrl = signal<SafeResourceUrl | null>(null);
+  private analyticsService = inject(AnalyticsService);
 
   processedItems = computed(() => {
     let result = [...this.items()];
@@ -102,6 +104,7 @@ export class ItemsComponent implements OnInit {
       .replace(/[\u0300-\u036f]/g, '');
   }
   ngOnInit() {
+    this.analyticsService.patientsViewOpened();
     this.fetchItems();
   }
 
