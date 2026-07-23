@@ -5,11 +5,14 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService, AuthUser } from '../services/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { AnalyticsService } from '../services/analytics';
+import { RouterLink } from '@angular/router';
+import { ProfileStateService, UserProfile } from '../services/profile-state.service';
 
 @Component({
   selector: 'app-config',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule, RouterLink],
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.css'],
 })
@@ -17,6 +20,8 @@ export class ConfigComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private analyticsService = inject(AnalyticsService);
+  private profileService = inject(ProfileStateService);
 
   user: { name: string; email: string; profilePic: string; role: string } = {
     name: '',
@@ -25,7 +30,7 @@ export class ConfigComponent implements OnInit {
     role: 'Administrador',
   };
 
-  userProfile: { phone: string; address: string; birthdate: string } = {
+  userProfile: UserProfile = {
     phone: '',
     address: '',
     birthdate: '',
@@ -49,6 +54,7 @@ export class ConfigComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.analyticsService.dashboardViewed();
     this.appInfo.userAgent = navigator.userAgent;
 
     const today = new Date();
@@ -59,17 +65,16 @@ export class ConfigComponent implements OnInit {
 
     this.maxDate = `${maxYear}-${month}-${day}`;
     this.minDate = `${minYear}-${month}-${day}`;
-
-    const savedProfile = localStorage.getItem('userProfile');
+    const savedProfile = this.profileService.getProfile();
     if (savedProfile) {
-      this.userProfile = JSON.parse(savedProfile);
+      this.userProfile = savedProfile;
     }
 
     this.authService.user$.subscribe((userData: AuthUser | null) => {
       if (userData) {
         this.user.name = userData.name;
         this.user.email = userData.email;
-        this.user.profilePic = userData.photoUrl || 'https://i.pravatar.cc/150';
+        this.user.profilePic = userData.photoUrl;
         this.cdr.detectChanges();
       } else {
         this.router.navigate(['/login']);
@@ -79,19 +84,6 @@ export class ConfigComponent implements OnInit {
 
   editProfile() {
     this.isEditing = true;
-  }
-
-  cancelEdit() {
-    this.isEditing = false;
-    const savedProfile = localStorage.getItem('userProfile');
-    if (savedProfile) {
-      this.userProfile = JSON.parse(savedProfile);
-    }
-  }
-
-  saveProfile() {
-    localStorage.setItem('userProfile', JSON.stringify(this.userProfile));
-    this.isEditing = false;
   }
 
   async logout() {

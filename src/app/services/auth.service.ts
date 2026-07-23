@@ -30,7 +30,9 @@ export class AuthService {
       observer.next({
         name: currentUser.displayName ?? 'Usuario',
         email: currentUser.email ?? '',
-        photoUrl: currentUser.photoURL ? `${currentUser.photoURL}?sz=150` : '',
+        photoUrl: currentUser.photoURL
+          ? `${currentUser.photoURL}?sz=150`
+          : '/img/default-avatar.png',
       });
     });
     return unsubscribe;
@@ -38,10 +40,16 @@ export class AuthService {
   public isLogged$: Observable<boolean> = this.user$.pipe(map((user) => user !== null));
   constructor() {}
 
-  async loginWithGoogle(): Promise<void> {
+  async loginWithGoogle(): Promise<AuthUser> {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(this.auth, provider);
+      const credential = await signInWithPopup(this.auth, provider);
+      const user = credential.user;
+      return {
+        name: user.displayName ?? 'Usuario',
+        email: user.email ?? '',
+        photoUrl: user.photoURL ? `${user.photoURL}?sz=150` : '',
+      };
     } catch (error) {
       console.error('Error al iniciar sesión con Google:', error);
       throw error;
