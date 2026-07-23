@@ -13,7 +13,7 @@
     "build:desktop": "tauri build",
     "build:mobile": "ng build",
     "sync:android": "npm run build:mobile && cap sync android",
-    "android": "npm run sync:android && cap open android"
+    "android": "npx rimraf ./android && npm run build:mobile && cap add android && cap sync android && cap open android"
   },
   "private": true,
   "packageManager": "npm@11.12.1",
