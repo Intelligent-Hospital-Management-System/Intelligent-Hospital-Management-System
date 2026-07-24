@@ -1,26 +1,26 @@
 @import 'material-icons/iconfont/material-icons.css';
 
-:root{
-  --primary-color:#4c1f3d;
-  --primary-light-color:#ffd0f9;
+:root {
+  --primary-color: #4c1f3d;
+  --primary-light-color: #ffd0f9;
 
-  --hospital-color:#10b981;
-  --hospital-light-color:#d1fae5;
-  
-  --secondary-color:#6a1b9a;
-  --secondary-light-color:#f3e5f5;
+  --hospital-color: #10b981;
+  --hospital-light-color: #d1fae5;
 
-  --neutral-color:#757575;
-  --neutral-light-color:#f5f5f5;
+  --secondary-color: #6a1b9a;
+  --secondary-light-color: #f3e5f5;
 
-  --text-dark-color:#757575;
-  --text-muted-color:#757575;
+  --neutral-color: #757575;
+  --neutral-light-color: #f5f5f5;
 
-  --bg-color:#ffffff;
-  --border-color:#ffd0f9;
+  --text-dark-color: #757575;
+  --text-muted-color: #757575;
 
-  --error-color:#d32f2f;
-  --error-bg-color:#feeceb;
+  --bg-color: #ffffff;
+  --border-color: #ffd0f9;
+
+  --error-color: #d32f2f;
+  --error-bg-color: #feeceb;
 }
 
 /* You can add global styles to this file, and also import other style files */
@@ -29,17 +29,18 @@
   src: url('/assets/fonts/Inter_18pt-Light.ttf') format('truetype');
   font-weight: 300;
 }
-  @font-face {
-  font-family: 'Inter' ;
+@font-face {
+  font-family: 'Inter';
   src: url('/assets/fonts/Inter_18pt-Regular.ttf') format('truetype');
- font-weight: 400;
+  font-weight: 400;
 }
 @font-face {
   font-family: 'Inter';
   src: url('/assets/fonts/Inter_18pt-Medium.ttf') format('truetype');
   font-weight: 500;
 }
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;

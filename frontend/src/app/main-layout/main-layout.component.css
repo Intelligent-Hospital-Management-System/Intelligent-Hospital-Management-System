@@ -59,7 +59,9 @@
   color: #555;
   text-decoration: none;
   font-size: 1rem;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .nav-link:hover {
@@ -114,7 +116,6 @@
 
 /* Responsive Rules */
 @media (max-width: 48rem) {
-
   /* 48rem = 48rem */
   .layout-container {
     flex-direction: column;
