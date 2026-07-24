@@ -5,6 +5,7 @@ dist/
 tmp/
 out-tsc/
 bazel-out/
+android/
 
 # Node
 node_modules/
