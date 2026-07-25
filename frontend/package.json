@@ -1,0 +1,66 @@
+{
+  "name": "ihms",
+  "version": "v1.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "prepare": "husky",
+    "lint:staged": "lint-staged",
+    "start:desktop": "tauri dev",
+    "build:desktop": "tauri build",
+    "build:mobile": "ng build",
+    "sync:android": "npm run build:mobile && cap sync android",
+    "android": "npx rimraf ./android && npm run build:mobile && cap add android && cap sync android && cap open android",
+    "lhci": "lhci autorun",
+    "build:stats": "ng build --stats-json",
+    "analyze":"npm run build:stats && npx esbuild-visualizer --metadata dist/ihms/stats.json --filename dist/ihms/esbuild-report.html"
+  },
+  "private": true,
+  "packageManager": "npm@11.12.1",
+  "dependencies": {
+    "@angular/cdk": "^21.2.7",
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/material": "^21.2.7",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
+    "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^17.0.0",
+    "@sentry/angular": "^10.64.0",
+    "firebase": "^12.14.0",
+    "material-icons": "^1.13.14",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.7",
+    "@angular/cli": "^21.2.7",
+    "@angular/compiler-cli": "^21.2.0",
+    "@capacitor/cli": "^8.4.2",
+    "@eslint/js": "^10.0.1",
+    "@tauri-apps/cli": "^2.11.4",
+    "@lhci/cli": "^0.15.1",
+    "esbuild-visualizer": "^0.7.0",
+    "eslint": "^10.4.1",
+    "globals": "^17.6.0",
+    "husky": "^9.1.7",
+    "jiti": "^2.7.0",
+    "lint-staged": "^17.0.7",
+    "prettier": "^3.8.4",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.61.0"
+  },
+  "lint-staged": {
+    "*.{ts,js,html,css,scss}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}
