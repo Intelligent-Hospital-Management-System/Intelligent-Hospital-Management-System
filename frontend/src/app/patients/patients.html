@@ -14,35 +14,27 @@
     [ngModel]="searchText()"
     (ngModelChange)="onSearchChange($event)"
   />
-
   @if (isLoading()) {
-    <div class="loading-container">
-      <div class="spinner-large"></div>
-      <p>Cargando Pacientes...</p>
-    </div>
+    <p>Cargando pacientes...</p>
   }
 
   @if (errorMessage()) {
-    <div class="error-message">
-      <p>{{ errorMessage() }}</p>
-    </div>
+    <p class="error-message">{{ errorMessage() }}</p>
   }
 
-  @if (!isLoading() && !errorMessage()) {
-    <div class="patients-list-scroll">
-      <div class="patients-list">
-        @for (patient of filteredPatients(); track patient.email) {
-          <article class="patient-card">
-            <img [src]="patient.picture.thumbnail" alt="Foto del paciente" />
+  <div class="patients-list-scroll">
+    <div class="patients-list">
+      @for (patient of filteredPatients(); track patient.email) {
+        <article class="patient-card">
+          <img [src]="patient.picture.thumbnail" alt="Foto del paciente" />
 
-            <div>
-              <h3>{{ patient.name.first }} {{ patient.name.last }}</h3>
-              <p>{{ patient.email }}</p>
-              <p>{{ patient.phone }}</p>
-            </div>
-          </article>
-        }
-      </div>
+          <div>
+            <h3>{{ patient.name.first }} {{ patient.name.last }}</h3>
+            <p>{{ patient.email }}</p>
+            <p>{{ patient.phone }}</p>
+          </div>
+        </article>
+      }
     </div>
-  }
+  </div>
 </section>
