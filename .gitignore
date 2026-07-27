@@ -40,6 +40,11 @@ testem.log
 typings
 __screenshots__/
 
+# Secrets and keys
+*service-account*.json
+*.env
+.env*
+
 # System files
 .DS_Store
 Thumbs.db

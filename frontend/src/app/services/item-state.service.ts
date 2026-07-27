@@ -32,7 +32,7 @@ export class ItemStateService {
     );
   }
   getItems(): Observable<Item[]> {
-    return this.#getCachedData<Item>('healthsitesCacheV4_nest', () => this.apiService.getItems());
+    return this.#getCachedData<Item>('itemsCache', () => this.apiService.getItems());
   }
   needsGeocode(item: Item): boolean {
     return (!item.city || !item.address) && item.latitude !== null && item.longitude !== null;

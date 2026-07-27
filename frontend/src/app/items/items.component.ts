@@ -116,7 +116,9 @@ export class ItemsComponent implements OnInit {
       next: (data) => {
         const itemsWithGeocodingState = data.map((item) => ({ ...item, isGeocoding: false }));
         this.items.set(itemsWithGeocodingState);
-        this.isLoading.set(false);
+        setTimeout(() => {
+          this.isLoading.set(false);
+        }, 600);
         this.triggerGeocoding(data);
       },
       error: (err) => {
@@ -188,7 +190,7 @@ export class ItemsComponent implements OnInit {
   }
 
   clearCacheAndReload() {
-    localStorage.removeItem('healthsitesCacheV3');
+    localStorage.removeItem('itemsCache');
     this.fetchItems();
   }
 
