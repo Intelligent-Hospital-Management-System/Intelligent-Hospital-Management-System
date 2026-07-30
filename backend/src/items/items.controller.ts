@@ -17,37 +17,37 @@ export class ItemsController {
 
   // GET /items — obtener todos los items
   @Get()
-  findAll(): Item[] {
+  async findAll(): Promise<Item[]> {
     return this.itemsService.findAll();
   }
 
   // GET /items/:id — obtener un item por id
   @Get(':id')
-  findOne(@Param('id') id: string): Item {
+  async findOne(@Param('id') id: string): Promise<Item> {
     return this.itemsService.findOne(id);
   }
 
   // POST /items — agregar un nuevo item
   @Post()
-  create(@Body() body: Partial<Item>): Item {
+  async create(@Body() body: Partial<Item>): Promise<Item> {
     return this.itemsService.create(body);
   }
 
   // PUT /items/:id — reemplazar completamente un item
   @Put(':id')
-  replace(@Param('id') id: string, @Body() body: Partial<Item>): Item {
+  async replace(@Param('id') id: string, @Body() body: Partial<Item>): Promise<Item> {
     return this.itemsService.replace(id, body);
   }
 
   // PATCH /items/:id — editar solo una propiedad (ej: active)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: Partial<Item>): Item {
+  async update(@Param('id') id: string, @Body() body: Partial<Item>): Promise<Item> {
     return this.itemsService.update(id, body);
   }
 
   // DELETE /items/:id — eliminar un item
   @Delete(':id')
-  remove(@Param('id') id: string): { message: string } {
+  async remove(@Param('id') id: string): Promise<{ message: string }> {
     return this.itemsService.remove(id);
   }
 }
