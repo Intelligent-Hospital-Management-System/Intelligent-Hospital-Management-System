@@ -30,9 +30,14 @@ export class PatientsService {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
-          .then((response) => response.json())
-          .then((data) => data),
+        }).then(async (response) => {
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || 'error al consultar pacientes');
+          }
+          return data;
+        }),
       ),
     );
   }
