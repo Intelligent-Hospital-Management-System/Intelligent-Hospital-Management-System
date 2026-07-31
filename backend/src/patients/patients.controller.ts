@@ -55,9 +55,34 @@ export class PatientsController {
   }
 
   @Post()
-  async create(@Body() patient: Partial<Patient>): Promise<Patient> {
-    return this.patientsService.create(patient);
+  async create(
+  @Body() patient: Partial<Patient>,
+  @Headers('authorization') authorization?: string,
+): Promise<Patient> {
+  if (!authorization?.startsWith('Bearer ')) {
+  throw new UnauthorizedException('Token no enviado');
+}
+
+const token = authorization.substring(7);
+
+try {
+  const decodedToken = await this.firebaseService.verifyToken(token);
+  const role = this.getRole(decodedToken.email);
+
+  if (role !== 'professor') {
+    throw new ForbiddenException(
+      'Solo los profesores pueden crear pacientes',
+    );
   }
+
+  return this.patientsService.create(patient);
+} catch (error) {
+  if (error instanceof ForbiddenException) {
+    throw error;
+  }
+
+  throw new UnauthorizedException('Token inválido');
+}}
 
   @Put(':id')
   async replace(
