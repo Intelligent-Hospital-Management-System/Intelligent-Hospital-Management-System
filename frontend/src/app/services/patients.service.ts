@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { getAuth } from 'firebase/auth';
 import { from, Observable } from 'rxjs';
 
 export interface Patient {
@@ -17,11 +18,22 @@ export interface Patient {
   providedIn: 'root',
 })
 export class PatientsService {
+  private auth = getAuth();
   getPatients(): Observable<Patient[]> {
+    const currentUser = this.auth.currentUser;
+    if (!currentUser) {
+      throw new Error('Usuario no autenticado');
+    }
     return from(
-      fetch('https://randomuser.me/api/?results=20')
-        .then((response) => response.json())
-        .then((data) => data.results),
+      currentUser.getIdToken().then((token) =>
+        fetch('http://localhost:3000/patients', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => data),
+      ),
     );
   }
 }
