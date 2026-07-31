@@ -1,6 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
+import { getAuth, DecodedIdToken } from 'firebase-admin/auth';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -25,6 +26,9 @@ export class FirebaseService implements OnModuleInit {
       }
     }
     this.db = getFirestore();
+  }
+  async verifyToken(token: string): Promise<DecodedIdToken> {
+    return getAuth().verifyIdToken(token);
   }
 
   async getCollection<T = any>(collectionName: string): Promise<T[]> {
