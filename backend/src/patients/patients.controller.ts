@@ -7,18 +7,47 @@ import {
   Delete,
   Param,
   Body,
+  Headers,
+  UnauthorizedException,
+  ForbiddenException
 } from '@nestjs/common';
 import { PatientsService } from './patients.service';
 import { Patient } from './patient.interface';
+import { FirebaseService } from '../firebase/firebase.service';
 
 @Controller('patients')
 export class PatientsController {
-  constructor(private readonly patientsService: PatientsService) {}
-
+  constructor(private readonly patientsService: PatientsService, private readonly firebaseService: FirebaseService,) {}
+  private getRole(email?: string): 'professor' | 'student' {
+  return email === 'florenciavarelasc@gmail.com'
+    ? 'professor'
+    : 'student';
+}
   @Get()
-  async findAll(): Promise<Patient[]> {
-    return this.patientsService.findAll();
+  async findAll(
+  @Headers('authorization') authorization?: string,
+): Promise<Patient[]> {
+  if (!authorization?.startsWith('Bearer ')) {
+    throw new UnauthorizedException('Token no enviado');
   }
+
+  const token = authorization.substring(7);
+
+  try {
+    const decodedToken = await this.firebaseService.verifyToken(token);
+    const role = this.getRole(decodedToken.email);
+
+    if (role !== 'professor' && role !== 'student') {
+    throw new ForbiddenException('Rol no autorizado');
+  }
+
+    return this.patientsService.findAll();
+  } catch (error) {
+    if (error instanceof ForbiddenException) {
+      throw error;
+  } 
+    throw new UnauthorizedException('Token inválido');
+  }}
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Patient> {
@@ -47,7 +76,21 @@ export class PatientsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<{ message: string }> {
-    return this.patientsService.remove(id);
+  async remove(@Param('id') id: string, 
+  @Headers('authorization') authorization?: string, 
+  ): Promise<{ message: string }> {
+    if (!authorization?.startsWith('Bearer ')) {
+    throw new UnauthorizedException('Token no enviado');
   }
+const token = authorization.substring(7);
+const decodedToken = await this.firebaseService.verifyToken(token);
+const role = this.getRole(decodedToken.email);
+
+    if (role !== 'professor') {
+    throw new ForbiddenException(
+    'Solo los profesores pueden eliminar pacientes',
+  );
+}
+    return this.patientsService.remove(id);
+}
 }
