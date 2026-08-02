@@ -26,7 +26,7 @@ export class PatientsService {
     }
     return from(
       currentUser.getIdToken().then((token) =>
-        fetch('http://localhost:3000/patients', {
+        fetch('https://ihms-backend-plzd.onrender.com/patients', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
