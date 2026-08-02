@@ -11,18 +11,25 @@ export class FirebaseService implements OnModuleInit {
 
   async onModuleInit() {
     if (getApps().length === 0) {
+      const envJson = process.env['FIREBASE_SERVICE_ACCOUNT'];
       const keyPath = path.join(process.cwd(), 'firebase-service-account.json');
-      if (fs.existsSync(keyPath)) {
+
+      if (envJson) {
+        const serviceAccount = JSON.parse(envJson);
+        initializeApp({
+          credential: cert(serviceAccount),
+        });
+        console.log('[FirebaseService] Conectado a Firestore mediante Service Account.');
+      } else if (fs.existsSync(keyPath)) {
         const serviceAccount = JSON.parse(fs.readFileSync(keyPath, 'utf8'));
         initializeApp({
           credential: cert(serviceAccount),
         });
         console.log('[FirebaseService] Conectado a Firestore mediante Service Account (firebase-admin).');
       } else {
-        initializeApp({
-          projectId: 'ihms-d5f57',
-        });
-        console.log('[FirebaseService] Conectado a Firestore usando Project ID.');
+        throw new Error(
+          'No se encontraron credenciales de Firebase. '
+        );
       }
     }
     this.db = getFirestore();
